@@ -177,10 +177,10 @@ const Text = styled.p`
   margin-top: 10rem;
   color: ${(props) => props.theme.colors.white};
 
-  @media(max-width: 460px){
+  @media(max-width: 760px){
     font-size: 2rem;
     line-height: 1;
-    max-width: 20rem;
-    margin-top: 6.5rem;
+    max-width: 34rem;
+    margin-top: 3.5rem;
   }
 `
