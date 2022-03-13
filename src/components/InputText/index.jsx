@@ -4,11 +4,11 @@ import {
   Input
 } from './styles'
 
-function InputText({ label, type }) {
+function InputText({ value, onChange, label, type }) {
   return (
     <Container>
       <Label>{label}</Label>
-      <Input type={type} />
+      <Input value={value} onChange={onChange} type={type} />
     </Container>
   )
 }

@@ -1,15 +1,38 @@
-import styled, { css }  from 'styled-components'
+import { useState } from 'react'
+import { HiOutlineArrowNarrowLeft } from 'react-icons/hi'
+import styled, { css } from 'styled-components'
 import Image from 'next/image'
 import InputText from '../components/InputText'
+import ToggleSwitch from '../components/ToggleSwitch'
 
-export default function Index() {
+function Index() {
+  const [isLogin, setLogin] = useState(true)
+  const [isChecked, setChecked] = useState(false)
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [passwordConfirmation, setPasswordConfirmation] = useState('')
+
+  const handleBackButton = () => {
+    setLogin((prevState) => !prevState)
+  }
 
   const handleLogin = () => {
-    console.log('Cliquei no login')
+    console.log('Login')
   }
 
   const handleRegister = () => {
-    console.log('Cliquei no registrar')
+    // console.log(name)
+    // console.log(email)
+    // console.log(password)
+    // console.log(passwordConfirmation)
+    // console.log(isChecked)
+    setLogin((prevState) => !prevState)
+  }
+
+  const handleChecked = () => {
+    setChecked((prevState) => prevState)
+    console.log(isChecked)
   }
 
   return (
@@ -25,16 +48,41 @@ export default function Index() {
         </Text>
       </TitleBackground>
       <FormBackground>
-        <Wrapper>
-          <InputText label='Email' type='text' />
-          <InputText label='Senha' type='password' />
+        <Wrapper isLogin={isLogin}>
+          {isLogin ? (
+            <>
+              <InputText value={email} onChange={(t) => setEmail(t)} label='Email' type='text' />
+              <InputText value={password} onChange={(t) => setPassword(t)} label='Senha' type='password' />
 
-          <ContainerButton>
-            <Button onClick={handleLogin}>Acessar</Button>
-            <Button onClick={handleRegister} outline>Registrar</Button>
-          </ContainerButton>
+              <ContainerButton>
+                <Button onClick={handleLogin}>Acessar</Button>
+                <Button onClick={handleRegister} outline>Registrar</Button>
+              </ContainerButton>
 
-          <LinkText href='/'>Conheça nossos requisitos</LinkText>
+              <LinkText href='/'>Conheça nossos requisitos</LinkText>
+            </>
+          ) : (
+            <>
+              <ContainerBackButton>
+                <HiOutlineArrowNarrowLeft size={26} style={{ color: '#A422E3' }} />
+                <BackText onClick={handleBackButton} href='/'>Voltar ao login</BackText>
+              </ContainerBackButton>
+
+              <InputText value={name} onChange={(t) => setName(t.target.value)} label='Nome' type='text' />
+              <InputText value={email} onChange={(t) => setEmail(t.target.value)} label='Email' type='email' />
+              <InputText value={password} onChange={(t) => setPassword(t.target.value)} label='Senha' type='password' />
+              <InputText value={passwordConfirmation} onChange={(t) => setPasswordConfirmation(t.target.value)} label='Confirmar senha' type='password' />
+
+              <ContainerToggle>
+                <ToggleText>
+                  Criar conta com saldo ?
+                </ToggleText>
+                <ToggleSwitch val isChecked={isChecked} onClick={handleChecked} />
+              </ContainerToggle>
+
+              <Button onClick={handleRegister} secondary>Cadastrar</Button>
+            </>
+          )}
         </Wrapper>
       </FormBackground>
     </Background>
@@ -89,7 +137,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 35rem;
-  height: 40rem;
+  height: ${(props) => (props.isLogin ? '42rem' : '58rem')};
   margin-top: 2rem;
   align-items: center;
   justify-content: space-around;
@@ -98,6 +146,27 @@ const Wrapper = styled.div`
 
   @media(max-width: 460px){
     width: 20rem;
+  }
+`
+
+const ContainerBackButton = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
+
+const BackText = styled.a`
+  font-size: 1.8rem;
+  color: ${(props) => props.theme.colors.primary};
+  padding-left: 1rem;
+
+  &:hover {
+    opacity: 0.8
+  }
+
+  @media(max-width: 460px){
+    font-size: 1.6rem;
   }
 `
 
@@ -110,6 +179,31 @@ const ContainerButton = styled.div`
   @media(max-width: 760px){
     flex-direction: column;
     height: 12rem;
+  }
+`
+
+const ContainerToggle = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  @media(max-width: 760px){
+    flex-direction: column;
+    height: 12rem;
+  }
+`
+
+const ToggleText = styled.p`
+  font-size: 1.8rem;
+  color: ${(props) => props.theme.colors.primary};
+
+  @media(max-width: 760px){
+    font-size: 2rem;
+    line-height: 1;
+    max-width: 34rem;
+    margin-top: 3.5rem;
   }
 `
 
@@ -131,6 +225,11 @@ const Button = styled.a`
     color: ${(props) => props.theme.colors.secondary};
     background: ${(props) => props.theme.colors.white};
     border: 1px solid ${(props) => props.theme.colors.secondary};`
+  }
+
+  ${props => props.secondary && css`
+    width: 100%;
+    background: ${(props) => props.theme.colors.secondary};`
   }
 
   &:hover {
@@ -184,3 +283,5 @@ const Text = styled.p`
     margin-top: 3.5rem;
   }
 `
+
+export default Index;
