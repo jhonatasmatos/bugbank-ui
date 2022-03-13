@@ -9,11 +9,11 @@ export const Input = styled.input`
   width: 100%;
   height: 100%;
   padding: 1rem;
-
   border: 1px solid ${(props) => props.theme.colors.primary};
   border-radius: 0.4rem;
-
   margin-top: 0.4rem;
+
+  font-size: 1.6rem;
 
   &:focus {
     outline: none;
