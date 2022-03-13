@@ -31,8 +31,7 @@ function Index() {
   }
 
   const handleChecked = () => {
-    setChecked((prevState) => prevState)
-    console.log(isChecked)
+    setChecked((prevState) => !prevState)
   }
 
   return (
@@ -77,7 +76,7 @@ function Index() {
                 <ToggleText>
                   Criar conta com saldo ?
                 </ToggleText>
-                <ToggleSwitch val isChecked={isChecked} onClick={handleChecked} />
+                <ToggleSwitch isChecked={isChecked} onClick={handleChecked} />
               </ContainerToggle>
 
               <Button onClick={handleRegister} secondary>Cadastrar</Button>
