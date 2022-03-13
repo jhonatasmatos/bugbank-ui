@@ -1,11 +1,16 @@
 <img src="/.github/assets/banner-bugbank.png" alt="BugBank - O banco com bugs e falhas do seu jeito" style="height: 300px; width:100%;"/>
 
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 # Bug Bank
 
 O banco com bugs e falhas do seu jeito.
 
 Pensando em uma aplicação que seja semelhante a projetos reais,
 _Bug Bank_ foi pensado para que você pratique planejamento de testes e automação de testes.
+
+- [Contribuição](https://github.com/jhonatasmatos/bugbank/blob/main/CONTRIBUTING.md)
+- [Licença](https://github.com/jhonatasmatos/bugbank/blob/main/LICENSE)
 
 ## Baixando o projeto
 
