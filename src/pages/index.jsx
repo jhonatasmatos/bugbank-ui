@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi'
 import styled, { css } from 'styled-components'
 import Image from 'next/image'
 import InputText from '../components/InputText'
 import ToggleSwitch from '../components/ToggleSwitch'
+import LinkText from '../components/LinkText'
 
 function Index() {
   const [isLogin, setLogin] = useState(true)
@@ -12,6 +14,7 @@ function Index() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
+  const router = useRouter()
 
   const handleBackButton = () => {
     setLogin((prevState) => !prevState)
@@ -19,6 +22,7 @@ function Index() {
 
   const handleLogin = () => {
     console.log('Login')
+    router.push('/home')
   }
 
   const handleRegister = () => {
@@ -37,7 +41,7 @@ function Index() {
   return (
     <Background>
       <TitleBackground>
-        <Image src='/bugbank.png' width='240' height='88' />
+        <Image src='/imgs/bugbank.png' width='240' height='88' />
 
         <Title>
           O banco com bugs e falhas do seu jeito
@@ -114,6 +118,8 @@ const TitleBackground = styled.div`
 
     @media(max-width: 960px){
       width: 100vw;
+      border-right: none;
+
       border-bottom: 2px solid ${(props) => props.theme.colors.primary};
     }
 `
@@ -237,18 +243,6 @@ const Button = styled.a`
 
   @media(max-width: 760px){
     width: 100%;
-  }
-`
-
-const LinkText = styled.a`
-  font-size: 2rem;
-
-  &:hover {
-    opacity: 0.8
-  }
-
-  @media(max-width: 460px){
-    font-size: 1.6rem;
   }
 `
 
