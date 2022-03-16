@@ -76,9 +76,9 @@ function Home() {
         </ContainerBalance>
         <ContainerButtons>
           {buttons.map((button) =>
-            <ContainerButton>
-              <Button key={button.src} href={button.href}>
-                <Image key={button.src} src={button.src} width='50' height='50' />
+            <ContainerButton key={button.src}>
+              <Button href={button.href}>
+                <Image src={button.src} width='50' height='50' />
               </Button>
               <TransactionText>{button.name}</TransactionText>
             </ContainerButton>
