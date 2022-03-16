@@ -22,20 +22,24 @@ import LinkText from '../../components/LinkText'
 
 const buttons = [
   {
-    "href": "/",
-    "src": "/imgs/transfer.png"
+    "href": "/transfer",
+    "src": "/imgs/transfer.png",
+    "name": "TRANSFERÊNCIA"
   },
   {
     "href": "/",
-    "src": "/imgs/payments.png"
+    "src": "/imgs/payments.png",
+    "name": "PAGAMENTOS"
   },
   {
     "href": "/",
-    "src": "/imgs/bank-statement.png"
+    "src": "/imgs/bank-statement.png",
+    "name": "EXTRATO"
   },
   {
     "href": "/",
-    "src": "/imgs/withdraw.png"
+    "src": "/imgs/withdraw.png",
+    "name": "SAQUE"
   }
 ]
 
@@ -72,9 +76,12 @@ function Home() {
         </ContainerBalance>
         <ContainerButtons>
           {buttons.map((button) =>
-            <Button key={button.src} href={button.href}>
-              <Image key={button.src} src={button.src} width='60' height='60' s />
-            </Button>
+            <ContainerButton>
+              <Button key={button.src} href={button.href}>
+                <Image key={button.src} src={button.src} width='50' height='50' />
+              </Button>
+              <TransactionText>{button.name}</TransactionText>
+            </ContainerButton>
           )}
         </ContainerButtons>
       </ContainerOptions>
@@ -85,7 +92,6 @@ function Home() {
     </Container>
   )
 }
-
 
 const Container = styled.div`
   height: 100vh;
@@ -223,6 +229,16 @@ const Text = styled.p`
   }
 `
 
+const TransactionText = styled.p`
+  color: ${(props) => props.theme.colors.white};
+  font-size: 1.6rem;
+  text-align: center;
+
+  @media(max-width: 760px){
+    font-size: 1rem;
+  }
+`
+
 const ContainerOptions = styled.div`
   display: grid;
   width: 100%;
@@ -271,13 +287,26 @@ const ContainerButtons = styled.div`
 
   @media(max-width: 600px){
     padding: 0 3rem;
-    overflow: auto;
+    overflow: visible;
   }
+`
 
+const ContainerButton = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 20rem;
+  align-items: center;
+  justify-content: space-between;
+
+  @media(max-width: 900px){
+    height: 14rem;
+    width: 10rem;
+  }
 `
 
 const Button = styled.a`
   display: flex;
+  flex-direction: column;
   width: 14rem;
   height: 14rem;
   border-radius: 1.2rem;
@@ -311,7 +340,7 @@ const Footer = styled.div`
   display:flex;
   flex-direction: row;
   width: 100%;
-  padding: 0 4rem;
+  padding: 0.5rem 4rem;
   align-items: center;
   justify-content: flex-end;
 
