@@ -225,6 +225,7 @@ const Button = styled.a`
 
   color: ${(props) => props.theme.colors.white};
   background: ${(props) => props.theme.colors.primary};
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4));
 
   ${props => props.outline && css`
     color: ${(props) => props.theme.colors.secondary};
