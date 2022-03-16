@@ -150,6 +150,10 @@ const ContainerInformations = styled.div`
   height: 100%;
 
   grid-area: profile;
+
+  @media(max-width: 600px){
+    height: 70%;
+  }
 `
 
 const ContainerInfos = styled.div`
@@ -252,6 +256,7 @@ const ContainerOptions = styled.div`
     "footer";
 
   @media(max-width: 600px){
+    height: 90%;
     display: flex;
     flex-direction: column;
     padding: 0;
