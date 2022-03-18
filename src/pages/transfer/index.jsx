@@ -11,6 +11,7 @@ import InputText from '../../components/InputText'
 
 function Transfer() {
   const [accountNumber, setAccountNumber] = useState('')
+  const [digit, setDigit] = useState('')
   const [transferValue, setTransferValue] = useState('')
   const [description, setDescription] = useState('')
   const router = useRouter()
@@ -20,7 +21,16 @@ function Transfer() {
   }
 
   const handleTransfer = () => {
-    console.log('transferindo o valor: ', transferValue)
+    const items = allStorage()
+
+    items.map((item) => {
+      if (item.includes(`${accountNumber}-${digit}`)) {
+        const account = JSON.parse(item)
+        account.balance = Number(account.balance) + Number(transferValue)
+
+        localStorage.setItem(account.email, JSON.stringify(account))
+      }
+    })
   }
 
   const handleLogout = () => {
@@ -29,7 +39,7 @@ function Transfer() {
   }
 
   const setSession = (session) => {
-    if(session){
+    if (session) {
       cookie.set('bugbank-auth', session, {
         expires: 1,
         path: '/'
@@ -37,6 +47,19 @@ function Transfer() {
     } else {
       cookie.remove('bugbank-auth')
     }
+  }
+
+  const allStorage = () => {
+
+    var values = [],
+      keys = Object.keys(localStorage),
+      i = keys.length;
+
+    while (i--) {
+      values.push(localStorage.getItem(keys[i]));
+    }
+
+    return values;
   }
 
   return (
@@ -61,9 +84,9 @@ function Transfer() {
       </Header>
 
       <ContainerTexts>
-        <ContainerBackButton>
+        <ContainerBackButton onClick={handleBackButton}>
           <HiOutlineArrowNarrowLeft size={34} style={{ color: '#fff' }} />
-          <BackText onClick={handleBackButton} href='/'>Voltar</BackText>
+          <BackText>Voltar</BackText>
         </ContainerBackButton>
 
         <TextInformation>
@@ -75,7 +98,10 @@ function Transfer() {
         <Form>
           <FormTitle>Informações para transferência</FormTitle>
 
-          <InputText value={accountNumber} onChange={(t) => setAccountNumber(t.target.value)} label='Número da conta' type='number' />
+          <ContainerAccountNumber>
+            <InputText value={accountNumber} onChange={(t) => setAccountNumber(t.target.value)} label='Número da conta' type='number' />
+            <InputText value={digit} onChange={(t) => setDigit(t.target.value)} label='Dígito' type='number' />
+          </ContainerAccountNumber>
           <InputText value={transferValue} onChange={(t) => setTransferValue(t.target.value)} label='Valor da transferência' type='number' />
           <InputText value={description} onChange={(t) => setDescription(t.target.value)} label='Descrição' type='text' />
 
@@ -159,12 +185,14 @@ const ContainerBackButton = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  cursor: pointer;
 `
 
 const BackText = styled.a`
   font-size: 1.8rem;
   color: ${(props) => props.theme.colors.white};
   padding-left: 1rem;
+  cursor: pointer;
 
   &:hover {
     opacity: 0.8
@@ -202,6 +230,12 @@ const TextInformation = styled.p`
 const FormTitle = styled.p`
   color: ${(props) => props.theme.colors.primary};
   font-size: 2rem;
+`
+
+const ContainerAccountNumber = styled.div`
+  display: grid;
+  grid-template-columns: auto 20%;
+  grid-gap: 1rem;
 `
 
 const ContainerForm = styled.div`
