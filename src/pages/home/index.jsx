@@ -1,23 +1,9 @@
+import { useRouter } from 'next/router'
+import Head from 'next/head'
+import cookie from 'js-cookie'
+
 import Image from 'next/image'
 import styled from 'styled-components'
-// import {
-//   Container,
-//   Header,
-//   ContainerLink,
-//   ContainerInformations,
-//   ContainerInfos,
-//   InitialLetterName,
-//   LetterName,
-//   ContainerText,
-//   ContainerAccountNumber,
-//   Text,
-//   ContainerOptions,
-//   ContainerBalance,
-//   ContainerButtons,
-//   Button,
-//   Footer
-// } from './styles'
-
 import LinkText from '../../components/LinkText'
 
 const buttons = [
@@ -44,13 +30,42 @@ const buttons = [
 ]
 
 function Home() {
+  const router  = useRouter()
+
+  const handleLogout = () => {
+    setSession(false)
+    router.push('/')
+  }
+
+  const setSession = (session) => {
+    if(session){
+      cookie.set('bugbank-auth', session, {
+        expires: 1,
+        path: '/'
+      })
+    } else {
+      cookie.remove('bugbank-auth')
+    }
+  }
+
   return (
     <Container>
-
+      <Head>
+        <script
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: `
+              if (!document.cookie || !document.cookie.includes('bugbank-auth')) {
+                window.location.href = "/"
+              }
+            `,
+          }}
+        />
+      </Head>
       <Header>
         <Image src='/imgs/bugbank.png' width='150' height='54' />
-        <ContainerLink>
-          <LinkText href='/'>Sair</LinkText>
+        <ContainerLink onClick={handleLogout}>
+          <LinkText>Sair</LinkText>
         </ContainerLink>
       </Header>
 
