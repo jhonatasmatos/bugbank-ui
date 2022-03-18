@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import Head from 'next/head'
+import cookie from 'js-cookie'
 import Image from 'next/image'
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi'
 import styled, { css } from 'styled-components'
@@ -21,13 +23,40 @@ function Transfer() {
     console.log('transferindo o valor: ', transferValue)
   }
 
+  const handleLogout = () => {
+    setSession(false)
+    router.push('/')
+  }
+
+  const setSession = (session) => {
+    if(session){
+      cookie.set('bugbank-auth', session, {
+        expires: 1,
+        path: '/'
+      })
+    } else {
+      cookie.remove('bugbank-auth')
+    }
+  }
+
   return (
     <Container>
-
+      <Head>
+        <script
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: `
+              if (!document.cookie || !document.cookie.includes('bugbank-auth')) {
+                window.location.href = "/"
+              }
+            `,
+          }}
+        />
+      </Head>
       <Header>
         <Image src='/imgs/bugbank.png' width='150' height='54' />
-        <ContainerLink>
-          <LinkText href='/'>Sair</LinkText>
+        <ContainerLink onClick={handleLogout}>
+          <LinkText>Sair</LinkText>
         </ContainerLink>
       </Header>
 
