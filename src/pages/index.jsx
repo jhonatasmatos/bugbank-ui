@@ -22,8 +22,8 @@ function Index() {
   }
 
   const handleLogin = () => {
-    const resposneStorage = localStorage.getItem(email);
-    const user = JSON.parse(resposneStorage)
+    const responseStorage = localStorage.getItem(email);
+    const user = JSON.parse(responseStorage)
 
     if(!user){
       console.log('Usuário ou senha inválida')
@@ -50,6 +50,7 @@ function Index() {
       name,
       email,
       password,
+      accountNumber: generateAccountNumber(),
       balance: isChecked ? 1000 : 0
     }
 
@@ -63,10 +64,20 @@ function Index() {
           path: '/'
         });
 
-        router.push('/home')
+        router.push({
+          pathname: '/home',
+          query: { user: email }
+        })
     } else {
         cookie.remove('bugbank-auth');
     }
+  }
+
+  const generateAccountNumber = () => {
+    const account = Math.floor(Math.random() * 1000);
+    const digit = Math.floor(Math.random() * 10)
+
+    return (`${account}-${digit}`)
   }
 
   const handleChecked = () => {
