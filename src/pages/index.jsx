@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import cookie from 'js-cookie'
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi'
 import styled, { css } from 'styled-components'
 import Image from 'next/image'
@@ -21,17 +22,51 @@ function Index() {
   }
 
   const handleLogin = () => {
-    console.log('Login')
-    router.push('/home')
+    const resposneStorage = localStorage.getItem(email);
+    const user = JSON.parse(resposneStorage)
+
+    if(!user){
+      console.log('Usuário ou senha inválida')
+    }
+
+    if(user && password === user.password){
+      setSession(true)
+    } else {
+      setSession(false)
+    }
+  }
+
+  const changeToRegister = () => {
+    setLogin((prevState) => !prevState)
   }
 
   const handleRegister = () => {
-    // console.log(name)
-    // console.log(email)
-    // console.log(password)
-    // console.log(passwordConfirmation)
-    // console.log(isChecked)
-    setLogin((prevState) => !prevState)
+
+    if(!password === passwordConfirmation){
+      console.log('error')
+    }
+
+    const user = {
+      name,
+      email,
+      password,
+      balance: isChecked ? 1000 : 0
+    }
+
+    localStorage.setItem(email, JSON.stringify(user))
+  }
+
+  const setSession = (session) => {
+    if (session) {
+        cookie.set('bugbank-auth', session, {
+          expires: 1,
+          path: '/'
+        });
+
+        router.push('/home')
+    } else {
+        cookie.remove('bugbank-auth');
+    }
   }
 
   const handleChecked = () => {
@@ -54,12 +89,12 @@ function Index() {
         <Wrapper isLogin={isLogin}>
           {isLogin ? (
             <>
-              <InputText value={email} onChange={(t) => setEmail(t)} label='Email' type='text' />
-              <InputText value={password} onChange={(t) => setPassword(t)} label='Senha' type='password' />
+              <InputText value={email} onChange={(t) => setEmail(t.target.value)} label='Email' type='text' />
+              <InputText value={password} onChange={(t) => setPassword(t.target.value)} label='Senha' type='password' />
 
               <ContainerButton>
                 <Button onClick={handleLogin}>Acessar</Button>
-                <Button onClick={handleRegister} outline>Registrar</Button>
+                <Button onClick={changeToRegister} outline>Registrar</Button>
               </ContainerButton>
 
               <LinkText href='/'>Conheça nossos requisitos</LinkText>
