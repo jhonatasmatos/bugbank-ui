@@ -8,12 +8,16 @@ import styled, { css } from 'styled-components'
 
 import LinkText from '../../components/LinkText'
 import InputText from '../../components/InputText'
+import Modal from '../../components/Modal'
 
 function Transfer() {
   const [accountNumber, setAccountNumber] = useState('')
   const [digit, setDigit] = useState('')
   const [transferValue, setTransferValue] = useState('')
   const [description, setDescription] = useState('')
+  const [openModal, setOpenModal] = useState(false)
+  const [modalText, setModalText] = useState('')
+  const [modalType, setModalType] = useState('error')
   const router = useRouter()
 
   const handleBackButton = () => {
@@ -23,14 +27,57 @@ function Transfer() {
   const handleTransfer = () => {
     const items = allStorage()
 
+    if(Number(transferValue) < 0 || Number(transferValue) === 0){
+      setModalText('Valor da transferência não pode ser 0 ou negativo')
+      setOpenModal(true)
+      setModalType('error')
+
+      return
+    }
+
+    let account
     items.map((item) => {
       if (item.includes(`${accountNumber}-${digit}`)) {
-        const account = JSON.parse(item)
-        account.balance = Number(account.balance) + Number(transferValue)
-
-        localStorage.setItem(account.email, JSON.stringify(account))
+        account = JSON.parse(item)
       }
     })
+
+    if(!account){
+      setModalText('Conta inválida ou inexistente')
+      setOpenModal(true)
+      setModalType('error')
+
+      return
+    }
+
+    if(account.email === router.query.user){
+      setModalText('Nao pode transferir pra mesmo conta')
+      setOpenModal(true)
+      setModalType('error')
+
+      return
+    }
+
+    const myAccount = localStorage.getItem(router.query.user)
+    const myAccountFormatted = JSON.parse(myAccount)
+
+    if(myAccountFormatted.balance < transferValue) {
+      setModalText('Você não tem saldo suficiente para essa transação')
+      setOpenModal(true)
+      setModalType('error')
+
+      return
+    }
+
+    myAccountFormatted.balance = Number(myAccountFormatted.balance) - Number(transferValue)
+    localStorage.setItem(myAccountFormatted.email, JSON.stringify(myAccountFormatted))
+
+    account.balance = Number(account.balance) + Number(transferValue)
+    localStorage.setItem(account.email, JSON.stringify(account))
+
+    setModalText('Transferencia realizada com sucesso')
+    setOpenModal(true)
+    setModalType('ok')
   }
 
   const handleLogout = () => {
@@ -112,6 +159,9 @@ function Transfer() {
       <Footer>
         <Text>Obrigado por escolher o nosso banco</Text>
       </Footer>
+      {openModal && (
+        <Modal type={modalType} text={modalText} onClose={() => setOpenModal(false)} />
+      )}
     </Container>
   )
 }
@@ -119,7 +169,6 @@ function Transfer() {
 const Container = styled.div`
   height: 100vh;
   width: 100vw;
-  padding: 0 6rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 7.4rem auto 5.4rem;
@@ -144,6 +193,7 @@ const Header = styled.div`
   box-sizing: border-box;
   justify-content: space-between;
   align-items: center;
+  padding: 0 4rem;
 
   grid-area: header;
 
@@ -183,6 +233,7 @@ const ContainerTexts = styled.div`
 const ContainerBackButton = styled.div`
   width: 100%;
   display: flex;
+  padding: 0 4rem;
   flex-direction: row;
   align-items: center;
   cursor: pointer;
@@ -300,6 +351,7 @@ const Footer = styled.div`
   padding: 0.5rem 0rem;
   align-items: center;
   justify-content: flex-end;
+  padding: 0 4rem;
 
   grid-area: footer;
 

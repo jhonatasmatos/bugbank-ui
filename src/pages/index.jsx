@@ -7,6 +7,7 @@ import Image from 'next/image'
 import InputText from '../components/InputText'
 import ToggleSwitch from '../components/ToggleSwitch'
 import LinkText from '../components/LinkText'
+import Modal from '../components/Modal'
 
 function Index() {
   const [isLogin, setLogin] = useState(true)
@@ -15,6 +16,9 @@ function Index() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
+  const [openModal, setOpenModal] = useState(false)
+  const [modalText, setModalText] = useState('')
+  const [modalType, setModalType] = useState('error')
   const router = useRouter()
 
   const handleBackButton = () => {
@@ -26,12 +30,15 @@ function Index() {
     const user = JSON.parse(responseStorage)
 
     if(!user){
-      console.log('Usuário ou senha inválida')
+      setModalText('Usuário ou senha inválido. Tente novamente ou verifique suas informações')
+      setOpenModal(true)
     }
 
     if(user && password === user.password){
       setSession(true)
     } else {
+      setModalText('Usuário ou senha inválido. Tente novamente ou verifique suas informações')
+      setOpenModal(true)
       setSession(false)
     }
   }
@@ -42,19 +49,59 @@ function Index() {
 
   const handleRegister = () => {
 
-    if(!password === passwordConfirmation){
-      console.log('error')
+    if(!name){
+      setModalText('Nome não pode ser vazio')
+      setModalType('error')
+      setOpenModal(true)
+
+      return
     }
 
+    if(!email){
+      setModalText('Email não pode ser vazio')
+      setModalType('error')
+      setOpenModal(true)
+
+      return
+    }
+
+    if(!password){
+      setModalText('Senha não pode ser vazio')
+      setModalType('error')
+      setOpenModal(true)
+
+      return
+    }
+
+    if(!passwordConfirmation){
+      setModalText('Confirmar senha não pode ser vazio')
+      setModalType('error')
+      setOpenModal(true)
+
+      return
+    }
+
+    if(password !== passwordConfirmation){
+      setModalText('As senhas não são iguais')
+      setModalType('error')
+      setOpenModal(true)
+
+      return
+    }
+    const account = generateAccountNumber()
     const user = {
       name,
       email,
       password,
-      accountNumber: generateAccountNumber(),
+      accountNumber: account,
       balance: isChecked ? 1000 : 0
     }
 
     localStorage.setItem(email, JSON.stringify(user))
+    setModalText(`A conta ${account} foi criada com sucesso`)
+    setModalType('ok')
+    setOpenModal(true)
+    setLogin(true)
   }
 
   const setSession = (session) => {
@@ -100,7 +147,7 @@ function Index() {
         <Wrapper isLogin={isLogin}>
           {isLogin ? (
             <>
-              <InputText value={email} onChange={(t) => setEmail(t.target.value)} label='Email' type='text' />
+              <InputText value={email} onChange={(t) => setEmail(t.target.value)} label='Email' type='email' />
               <InputText value={password} onChange={(t) => setPassword(t.target.value)} label='Senha' type='password' />
 
               <ContainerButton>
@@ -134,6 +181,9 @@ function Index() {
           )}
         </Wrapper>
       </FormBackground>
+      {openModal && (
+        <Modal type={modalType} text={modalText} onClose={() => setOpenModal(false)} />
+      )}
     </Background>
   )
 }
