@@ -1,6 +1,7 @@
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import Head from 'next/head'
 import cookie from 'js-cookie'
+import Head from 'next/head'
 
 import Image from 'next/image'
 import styled from 'styled-components'
@@ -31,6 +32,28 @@ const buttons = [
 
 function Home() {
   const router  = useRouter()
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [balance, setBalance] = useState('')
+  const [account, setAccount] = useState('')
+  const [initial, setInitial] = useState('')
+
+  useEffect(() => {
+    const getUserInfo = () => {
+      const item = localStorage.getItem(`${router.query.user}`)
+      const userInfo = JSON.parse(item)
+
+      setName(userInfo.name)
+      setEmail(userInfo.email)
+      setBalance(userInfo.balance)
+      setAccount(userInfo.accountNumber)
+      setInitial(userInfo.name.substr(0, 1).toUpperCase())
+    }
+
+      if(Object.keys(router.query).length !== 0){
+        getUserInfo()
+      }
+  },[])
 
   const handleLogout = () => {
     setSession(false)
@@ -46,6 +69,17 @@ function Home() {
     } else {
       cookie.remove('bugbank-auth')
     }
+  }
+
+  const handleNavigate = (href) => {
+    router.push({
+      pathname: href,
+      query: { user: email }
+    })
+  }
+
+  const formatValue = (value) => {
+    return value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
   }
 
   return (
@@ -72,27 +106,27 @@ function Home() {
       <ContainerInformations>
         <ContainerInfos>
           <InitialLetterName>
-            <LetterName>J</LetterName>
+            <LetterName>{initial}</LetterName>
           </InitialLetterName>
           <ContainerText>
-            <Text>{`Olá Jhonatas Matos,`}</Text>
+            <Text>{`Olá ${name},`}</Text>
             <Text>{`bem vindo ao BugBank :)`}</Text>
           </ContainerText>
 
           <ContainerAccountNumber>
-            <Text>Conta digital: <span>{`123-4`}</span></Text>
+            <Text>Conta digital: <span>{account}</span></Text>
           </ContainerAccountNumber>
         </ContainerInfos>
       </ContainerInformations>
 
       <ContainerOptions>
         <ContainerBalance>
-          <Text>Saldo em conta <span>R$ 1.000,00</span></Text>
+          <Text>Saldo em conta <span>R$ {formatValue(balance)}</span></Text>
         </ContainerBalance>
         <ContainerButtons>
           {buttons.map((button) =>
             <ContainerButton key={button.src}>
-              <Button href={button.href}>
+              <Button onClick={() => handleNavigate(button.href)}>
                 <Image src={button.src} width='50' height='50' />
               </Button>
               <TransactionText>{button.name}</TransactionText>
@@ -330,6 +364,7 @@ const Button = styled.a`
   width: 14rem;
   height: 14rem;
   border-radius: 1.2rem;
+  cursor: pointer;
 
   align-items: center;
   justify-content: center;
