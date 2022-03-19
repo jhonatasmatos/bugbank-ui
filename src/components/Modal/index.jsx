@@ -8,6 +8,7 @@ import {
 } from './styles'
 
 import { BiErrorCircle, BiCheckCircle } from 'react-icons/bi'
+import { FiAlertCircle } from 'react-icons/fi'
 
 function Modal({ type, onClose, text }) {
 
@@ -26,10 +27,14 @@ function Modal({ type, onClose, text }) {
         </ContainerCloseButton>
 
         <ContainerInformations>
-          {type === 'error' ? (
+          {type === 'error' && (
             <BiErrorCircle size={84} color='red' />
-          ):(
+          )}
+          {type === 'ok' && (
             <BiCheckCircle size={84} color='green' />
+          )}
+          {type === 'alert' && (
+            <FiAlertCircle size={84} color='yellow' />
           )}
           <Text>{text}</Text>
           <Button onClick={handleCloseClick}>Fechar</Button>

@@ -78,6 +78,13 @@ function Transfer() {
     setModalText('Transferencia realizada com sucesso')
     setOpenModal(true)
     setModalType('ok')
+
+
+  }
+
+  const closeModal = () => {
+    setOpenModal(false)
+    router.back()
   }
 
   const handleLogout = () => {
@@ -160,7 +167,7 @@ function Transfer() {
         <Text>Obrigado por escolher o nosso banco</Text>
       </Footer>
       {openModal && (
-        <Modal type={modalType} text={modalText} onClose={() => setOpenModal(false)} />
+        <Modal type={modalType} text={modalText} onClose={() => closeModal()} />
       )}
     </Container>
   )
