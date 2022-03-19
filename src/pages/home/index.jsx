@@ -6,6 +6,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styled from 'styled-components'
 import LinkText from '../../components/LinkText'
+import Modal from '../../components/Modal'
 
 const buttons = [
   {
@@ -37,6 +38,9 @@ function Home() {
   const [balance, setBalance] = useState('')
   const [account, setAccount] = useState('')
   const [initial, setInitial] = useState('')
+  const [openModal, setOpenModal] = useState(false)
+  const [modalText, setModalText] = useState('')
+  const [modalType, setModalType] = useState('error')
 
   useEffect(() => {
     const getUserInfo = () => {
@@ -72,10 +76,16 @@ function Home() {
   }
 
   const handleNavigate = (href) => {
-    router.push({
-      pathname: href,
-      query: { user: email }
-    })
+    if(href !== '/transfer'){
+      setModalText('Funcionalidade em desenvolvimento')
+      setOpenModal(true)
+      setModalType('alert')
+    } else {
+      router.push({
+        pathname: href,
+        query: { user: email }
+      })
+    }
   }
 
   const formatValue = (value) => {
@@ -138,6 +148,9 @@ function Home() {
       <Footer>
         <Text>Obrigado por escolher o nosso banco</Text>
       </Footer>
+      {openModal && (
+        <Modal type={modalType} text={modalText} onClose={() => setOpenModal(false)} />
+      )}
     </Container>
   )
 }
