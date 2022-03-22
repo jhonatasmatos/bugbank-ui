@@ -155,7 +155,7 @@ function Index() {
                 <Button onClick={changeToRegister} outline>Registrar</Button>
               </ContainerButton>
 
-              <LinkText href='/'>Conheça nossos requisitos</LinkText>
+              <LinkText href='/requirements'>Conheça nossos requisitos</LinkText>
             </>
           ) : (
             <>
