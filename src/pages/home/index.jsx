@@ -12,30 +12,26 @@ import HeadLinks from '../../components/HeadLinks'
 import { useAuth } from '../../providers/auth'
 
 import logo from '../../../public/imgs/bugbank.png'
-import transfer from '../../../public/imgs/transfer.png'
-import payments from '../../../public/imgs/payments.png'
-import bankStatement from '../../../public/imgs/bank-statement.png'
-import withdraw from '../../../public/imgs/withdraw.png'
 
 const buttons = [
   {
     "href": "/transfer",
-    "src": `${transfer}`,
+    "src": '/imgs/transfer.png',
     "name": "TRANSFERÊNCIA"
   },
   {
     "href": "/",
-    "src": `${payments}`,
+    "src": '/imgs/payments.png',
     "name": "PAGAMENTOS"
   },
   {
     "href": "/",
-    "src": `${bankStatement}`,
+    "src": '/imgs/bank-statement.png',
     "name": "EXTRATO"
   },
   {
     "href": "/",
-    "src": `${withdraw}`,
+    "src": '/imgs/withdraw.png',
     "name": "SAQUE"
   }
 ]
@@ -146,7 +142,7 @@ function Home() {
           {buttons.map((button) =>
             <ContainerButton key={button.src}>
               <Button onClick={() => handleNavigate(button.href)}>
-                <Image src={button.src} width='50' height='50' placeholder='blur' />
+                <Image src={button.src} width='50' height='50' placeholder='blur' blurDataURL='base64' />
               </Button>
               <TransactionText>{button.name}</TransactionText>
             </ContainerButton>
