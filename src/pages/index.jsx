@@ -9,6 +9,7 @@ import InputText from '../components/InputText'
 import ToggleSwitch from '../components/ToggleSwitch'
 import LinkText from '../components/LinkText'
 import Modal from '../components/Modal'
+import HeadLinks from '../components/HeadLinks'
 
 import { useAuth } from '../providers/auth'
 
@@ -137,6 +138,7 @@ function Index() {
 
   return (
     <Background>
+      <HeadLinks />
       <TitleBackground>
         <Image src='/imgs/bugbank.png' width='240' height='88' />
 

@@ -5,6 +5,7 @@ import Image from 'next/image'
 
 import LinkText from '../../components/LinkText'
 import Accordion from '../../components/Accordion'
+import HeadLinks from '../../components/HeadLinks'
 
 function Requirements() {
   const [accordionOpened, setAccordionOpened] = useState(null);
@@ -47,6 +48,7 @@ function Requirements() {
 
   return (
     <Container>
+      <HeadLinks />
       <Header>
         <Image src='/imgs/bugbank.png' width='150' height='54' />
         <ContainerLink>
