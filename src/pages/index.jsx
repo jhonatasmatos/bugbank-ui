@@ -4,10 +4,12 @@ import cookie from 'js-cookie'
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi'
 import styled, { css } from 'styled-components'
 import Image from 'next/image'
+
 import InputText from '../components/InputText'
 import ToggleSwitch from '../components/ToggleSwitch'
 import LinkText from '../components/LinkText'
 import Modal from '../components/Modal'
+
 import { useAuth } from '../providers/auth'
 
 function Index() {
