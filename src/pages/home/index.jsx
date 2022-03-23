@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import cookie from 'js-cookie'
-import Head from 'next/head'
+import Script from 'next/script'
 
 import Image from 'next/image'
 import styled from 'styled-components'
 import LinkText from '../../components/LinkText'
 import Modal from '../../components/Modal'
+import HeadLinks from '../../components/HeadLinks'
+
+import { useAuth } from '../../providers/auth'
 
 const buttons = [
   {
@@ -32,32 +35,29 @@ const buttons = [
 ]
 
 function Home() {
-  const router  = useRouter()
+  const router = useRouter()
   const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
   const [balance, setBalance] = useState('')
   const [account, setAccount] = useState('')
   const [initial, setInitial] = useState('')
   const [openModal, setOpenModal] = useState(false)
   const [modalText, setModalText] = useState('')
   const [modalType, setModalType] = useState('error')
+  const { user } = useAuth()
 
   useEffect(() => {
     const getUserInfo = () => {
-      const item = localStorage.getItem(`${router.query.user}`)
+      const item = localStorage.getItem(user)
       const userInfo = JSON.parse(item)
 
       setName(userInfo.name)
-      setEmail(userInfo.email)
       setBalance(userInfo.balance)
       setAccount(userInfo.accountNumber)
       setInitial(userInfo.name.substr(0, 1).toUpperCase())
     }
 
-      if(Object.keys(router.query).length !== 0){
-        getUserInfo()
-      }
-  },[])
+    getUserInfo()
+  }, [])
 
   const handleLogout = () => {
     setSession(false)
@@ -65,7 +65,7 @@ function Home() {
   }
 
   const setSession = (session) => {
-    if(session){
+    if (session) {
       cookie.set('bugbank-auth', session, {
         expires: 1,
         path: '/'
@@ -76,36 +76,37 @@ function Home() {
   }
 
   const handleNavigate = (href) => {
-    if(href !== '/transfer'){
+    if (href !== '/transfer') {
       setModalText('Funcionalidade em desenvolvimento')
       setOpenModal(true)
       setModalType('alert')
     } else {
       router.push({
-        pathname: href,
-        query: { user: email }
+        pathname: href
       })
     }
   }
 
   const formatValue = (value) => {
-    return value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+    return value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
   }
 
   return (
     <Container>
-      <Head>
+      <Script>
         <script
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
             __html: `
-              if (!document.cookie || !document.cookie.includes('bugbank-auth')) {
-                window.location.href = "/"
-              }
-            `,
+        if (!document.cookie || !document.cookie.includes('bugbank-auth')) {
+          window.location.href = "/"
+        }
+      `,
           }}
         />
-      </Head>
+      </Script>
+
+      <HeadLinks />
       <Header>
         <Image src='/imgs/bugbank.png' width='150' height='54' />
         <ContainerLink onClick={handleLogout}>
