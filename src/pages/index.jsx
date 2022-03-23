@@ -8,6 +8,7 @@ import InputText from '../components/InputText'
 import ToggleSwitch from '../components/ToggleSwitch'
 import LinkText from '../components/LinkText'
 import Modal from '../components/Modal'
+import { useAuth } from '../providers/auth'
 
 function Index() {
   const [isLogin, setLogin] = useState(true)
@@ -20,6 +21,7 @@ function Index() {
   const [modalText, setModalText] = useState('')
   const [modalType, setModalType] = useState('error')
   const router = useRouter()
+  const { setUser } = useAuth()
 
   const handleBackButton = () => {
     setLogin((prevState) => !prevState)
@@ -28,6 +30,7 @@ function Index() {
   const handleLogin = () => {
     const responseStorage = localStorage.getItem(email);
     const user = JSON.parse(responseStorage)
+    setUser(email)
 
     if(!user){
       setModalText('Usuário ou senha inválido. Tente novamente ou verifique suas informações')
@@ -112,8 +115,7 @@ function Index() {
         });
 
         router.push({
-          pathname: '/home',
-          query: { user: email }
+          pathname: '/home'
         })
     } else {
         cookie.remove('bugbank-auth');

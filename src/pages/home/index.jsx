@@ -7,6 +7,7 @@ import Image from 'next/image'
 import styled from 'styled-components'
 import LinkText from '../../components/LinkText'
 import Modal from '../../components/Modal'
+import { useAuth } from '../../providers/auth'
 
 const buttons = [
   {
@@ -41,10 +42,11 @@ function Home() {
   const [openModal, setOpenModal] = useState(false)
   const [modalText, setModalText] = useState('')
   const [modalType, setModalType] = useState('error')
+  const { user } = useAuth()
 
   useEffect(() => {
     const getUserInfo = () => {
-      const item = localStorage.getItem(`${router.query.user}`)
+      const item = localStorage.getItem(user)
       const userInfo = JSON.parse(item)
 
       setName(userInfo.name)
@@ -54,9 +56,7 @@ function Home() {
       setInitial(userInfo.name.substr(0, 1).toUpperCase())
     }
 
-      if(Object.keys(router.query).length !== 0){
-        getUserInfo()
-      }
+    getUserInfo()
   },[])
 
   const handleLogout = () => {
@@ -82,8 +82,7 @@ function Home() {
       setModalType('alert')
     } else {
       router.push({
-        pathname: href,
-        query: { user: email }
+        pathname: href
       })
     }
   }

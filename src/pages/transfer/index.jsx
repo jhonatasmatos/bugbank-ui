@@ -9,6 +9,7 @@ import styled, { css } from 'styled-components'
 import LinkText from '../../components/LinkText'
 import InputText from '../../components/InputText'
 import Modal from '../../components/Modal'
+import { useAuth } from '../../providers/auth'
 
 function Transfer() {
   const [accountNumber, setAccountNumber] = useState('')
@@ -19,6 +20,7 @@ function Transfer() {
   const [modalText, setModalText] = useState('')
   const [modalType, setModalType] = useState('error')
   const router = useRouter()
+  const { user } = useAuth()
 
   const handleBackButton = () => {
     router.back()
@@ -50,7 +52,7 @@ function Transfer() {
       return
     }
 
-    if(account.email === router.query.user){
+    if(account.email === user){
       setModalText('Nao pode transferir pra mesmo conta')
       setOpenModal(true)
       setModalType('error')
@@ -58,7 +60,7 @@ function Transfer() {
       return
     }
 
-    const myAccount = localStorage.getItem(router.query.user)
+    const myAccount = localStorage.getItem(user)
     const myAccountFormatted = JSON.parse(myAccount)
 
     if(myAccountFormatted.balance < transferValue) {
@@ -78,8 +80,6 @@ function Transfer() {
     setModalText('Transferencia realizada com sucesso')
     setOpenModal(true)
     setModalType('ok')
-
-
   }
 
   const closeModal = () => {
