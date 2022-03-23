@@ -1,18 +1,31 @@
-import { Html, Head, Main, NextScript } from 'next/document'
+import Document, { Html, Head, Main, NextScript } from 'next/document'
+import { ServerStyleSheet } from 'styled-components'
+import HeadLinks from '../components/HeadLinks';
 
-export default function Document() {
-  return (
-    <Html lang="pt-BR">
-      <Head>
-        <title>BugBank | O banco com bugs e falhas do seu jeito</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;700&display=swap" rel="stylesheet" />
-      </Head>
-      <body>
-        <Main />
-        <NextScript />
-      </body>
-    </Html>
-  )
+export default class MyDocument extends Document {
+  static getInitialProps({ renderPage }) {
+    const transform = (App) => {
+      // Next.js gives us a `transformPage` function
+      // to be able to hook into the rendering of a page
+      // Step 1: Here we will generate the styles
+      return App;
+    }
+    const page = renderPage(transform);
+    return { ...page };
+  }
+
+  render() {
+    return (
+      <Html lang="pt-BR">
+        <Head>
+          <HeadLinks />
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    )
+  }
 }
+
