@@ -13,6 +13,8 @@ import HeadLinks from '../components/HeadLinks'
 
 import { useAuth } from '../providers/auth'
 
+import logo from '../../public/imgs/bugbank.png'
+
 function Index() {
   const [isLogin, setLogin] = useState(true)
   const [isChecked, setChecked] = useState(false)
@@ -140,7 +142,7 @@ function Index() {
     <Background>
       <HeadLinks />
       <TitleBackground>
-        <Image src='/imgs/bugbank.png' width='240' height='88' />
+        <Image src={logo} width='240' height='88' placeholder='blur' />
 
         <Title>
           O banco com bugs e falhas do seu jeito

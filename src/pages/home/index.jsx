@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 import cookie from 'js-cookie'
 import Script from 'next/script'
 
@@ -11,25 +12,31 @@ import HeadLinks from '../../components/HeadLinks'
 
 import { useAuth } from '../../providers/auth'
 
+import logo from '../../../public/imgs/bugbank.png'
+import transfer from '../../../public/imgs/transfer.png'
+import payments from '../../../public/imgs/payments.png'
+import bankStatement from '../../../public/imgs/bank-statement.png'
+import withdraw from '../../../public/imgs/withdraw.png'
+
 const buttons = [
   {
     "href": "/transfer",
-    "src": "/imgs/transfer.png",
+    "src": `${transfer}`,
     "name": "TRANSFERÊNCIA"
   },
   {
     "href": "/",
-    "src": "/imgs/payments.png",
+    "src": `${payments}`,
     "name": "PAGAMENTOS"
   },
   {
     "href": "/",
-    "src": "/imgs/bank-statement.png",
+    "src": `${bankStatement}`,
     "name": "EXTRATO"
   },
   {
     "href": "/",
-    "src": "/imgs/withdraw.png",
+    "src": `${withdraw}`,
     "name": "SAQUE"
   }
 ]
@@ -108,7 +115,9 @@ function Home() {
 
       <HeadLinks />
       <Header>
-        <Image src='/imgs/bugbank.png' width='150' height='54' />
+        <LinkText href='/home'>
+          <Image src={logo} width='150' height='54' placeholder='blur' />
+        </LinkText>
         <ContainerLink onClick={handleLogout}>
           <LinkText>Sair</LinkText>
         </ContainerLink>
@@ -138,7 +147,7 @@ function Home() {
           {buttons.map((button) =>
             <ContainerButton key={button.src}>
               <Button onClick={() => handleNavigate(button.href)}>
-                <Image src={button.src} width='50' height='50' />
+                <Image src={button.src} width='50' height='50' placeholder='blur' />
               </Button>
               <TransactionText>{button.name}</TransactionText>
             </ContainerButton>

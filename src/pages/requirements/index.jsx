@@ -7,6 +7,9 @@ import LinkText from '../../components/LinkText'
 import Accordion from '../../components/Accordion'
 import HeadLinks from '../../components/HeadLinks'
 
+import logo from '../../../public/imgs/bugbank.png'
+import requirement from '../../../public/imgs/requirements.svg'
+
 function Requirements() {
   const [accordionOpened, setAccordionOpened] = useState(null);
 
@@ -50,14 +53,16 @@ function Requirements() {
     <Container>
       <HeadLinks />
       <Header>
-        <Image src='/imgs/bugbank.png' width='150' height='54' />
+        <LinkText href='/'>
+          <Image src={logo} width='150' height='54' placeholder='blur' />
+        </LinkText>
         <ContainerLink>
           <LinkText href='/'>Voltar</LinkText>
         </ContainerLink>
       </Header>
 
       <ContainerImage>
-        <Image src='/imgs/requirements.svg' width='450' height='250' />
+        <Image src={requirement} width='450' height='250' placeholder='blur' />
 
         <Text>Gostou do projeto e quer contribuir?</Text>
         <Link href='https://github.com/jhonatasmatos/bugbank'>Acesse o link do repositório clicando aqui</Link>
