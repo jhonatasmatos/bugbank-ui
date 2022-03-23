@@ -13,6 +13,8 @@ import HeadLinks from '../../components/HeadLinks'
 
 import { useAuth } from '../../providers/auth'
 
+import logo from '../../../public/imgs/bugbank.png'
+
 function Transfer() {
   const [accountNumber, setAccountNumber] = useState('')
   const [digit, setDigit] = useState('')
@@ -134,7 +136,9 @@ function Transfer() {
       </Script>
       <HeadLinks />
       <Header>
-        <Image src='/imgs/bugbank.png' width='150' height='54' />
+      <LinkText href='/home'>
+          <Image src={logo} width='150' height='54' placeholder='blur' />
+        </LinkText>
         <ContainerLink onClick={handleLogout}>
           <LinkText>Sair</LinkText>
         </ContainerLink>
