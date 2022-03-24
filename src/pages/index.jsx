@@ -34,21 +34,44 @@ function Index() {
 
   const handleLogin = () => {
     const responseStorage = localStorage.getItem(email);
-    const user = JSON.parse(responseStorage)
-    setUser(email)
+    const loggedUser = JSON.parse(responseStorage)
 
-    if(!user){
+    const users = allStorage()
+
+    users.map((user) => {
+      const u = JSON.parse(user)
+
+      if(u.email !== loggedUser.email){
+        u.logged = false
+        localStorage.setItem(u.email, JSON.stringify(u))
+      }
+    })
+
+    if(!loggedUser){
       setModalText('Usuário ou senha inválido. Tente novamente ou verifique suas informações')
       setOpenModal(true)
     }
 
-    if(user && password === user.password){
-      setSession(true)
+    if(loggedUser && password === loggedUser.password){
+      setSession(true, loggedUser)
     } else {
       setModalText('Usuário ou senha inválido. Tente novamente ou verifique suas informações')
       setOpenModal(true)
       setSession(false)
     }
+  }
+
+  const allStorage = () => {
+
+    var values = [],
+      keys = Object.keys(localStorage),
+      i = keys.length;
+
+    while (i--) {
+      values.push(localStorage.getItem(keys[i]));
+    }
+
+    return values;
   }
 
   const changeToRegister = () => {
@@ -102,7 +125,8 @@ function Index() {
       email,
       password,
       accountNumber: account,
-      balance: isChecked ? 1000 : 0
+      balance: isChecked ? 1000 : 0,
+      logged: false
     }
 
     localStorage.setItem(email, JSON.stringify(user))
@@ -112,12 +136,16 @@ function Index() {
     setLogin(true)
   }
 
-  const setSession = (session) => {
+  const setSession = (session, user) => {
     if (session) {
         cookie.set('bugbank-auth', session, {
           expires: 1,
           path: '/'
         });
+
+        user.logged = true
+        setUser(user)
+        localStorage.setItem(email, JSON.stringify(user))
 
         router.push({
           pathname: '/home'
