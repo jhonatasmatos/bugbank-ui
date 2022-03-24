@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import cookie from 'js-cookie'
-import Script from 'next/script'
+import Head from 'next/head'
 
 import Image from 'next/image'
 import styled from 'styled-components'
@@ -38,30 +38,42 @@ const buttons = [
 
 function Home() {
   const router = useRouter()
-  const [name, setName] = useState('')
-  const [balance, setBalance] = useState('')
-  const [account, setAccount] = useState('')
-  const [initial, setInitial] = useState('')
   const [openModal, setOpenModal] = useState(false)
   const [modalText, setModalText] = useState('')
   const [modalType, setModalType] = useState('error')
-  const { user } = useAuth()
+  const { user, setUser } = useAuth()
 
   useEffect(() => {
-    const getUserInfo = () => {
-      const item = localStorage.getItem(user)
-      const userInfo = JSON.parse(item)
+    const users = allStorage()
 
-      setName(userInfo.name)
-      setBalance(userInfo.balance)
-      setAccount(userInfo.accountNumber)
-      setInitial(userInfo.name.substr(0, 1).toUpperCase())
-    }
+    users.map((user) => {
+      const u = JSON.parse(user)
 
-    getUserInfo()
+      if (u.logged) {
+        setUser(u)
+      }
+    })
   }, [])
 
+  const allStorage = () => {
+
+    var values = [],
+      keys = Object.keys(localStorage),
+      i = keys.length;
+
+    while (i--) {
+      values.push(localStorage.getItem(keys[i]));
+    }
+
+    return values;
+  }
+
   const handleLogout = () => {
+
+    user.logged = false
+    setUser(user)
+    localStorage.setItem(user.email, JSON.stringify(user))
+
     setSession(false)
     router.push('/')
   }
@@ -95,18 +107,18 @@ function Home() {
 
   return (
     <Container>
-      <Script>
+      <Head>
         <script
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
             __html: `
-        if (!document.cookie || !document.cookie.includes('bugbank-auth')) {
-          window.location.href = "/"
-        }
-      `,
+              if (!document.cookie || !document.cookie.includes('bugbank-auth')) {
+                window.location.href = "/"
+              }
+            `,
           }}
         />
-      </Script>
+      </Head>
 
       <HeadLinks />
       <Header>
@@ -121,22 +133,22 @@ function Home() {
       <ContainerInformations>
         <ContainerInfos>
           <InitialLetterName>
-            <LetterName>{initial}</LetterName>
+            <LetterName>{user.name.substr(0, 1).toUpperCase()}</LetterName>
           </InitialLetterName>
           <ContainerText>
-            <Text>{`Olá ${name},`}</Text>
+            <Text>{`Olá ${user.name},`}</Text>
             <Text>{`bem vindo ao BugBank :)`}</Text>
           </ContainerText>
 
           <ContainerAccountNumber>
-            <Text>Conta digital: <span>{account}</span></Text>
+            <Text>Conta digital: <span>{user.account}</span></Text>
           </ContainerAccountNumber>
         </ContainerInfos>
       </ContainerInformations>
 
       <ContainerOptions>
         <ContainerBalance>
-          <Text>Saldo em conta <span>R$ {formatValue(balance)}</span></Text>
+          <Text>Saldo em conta <span>R$ {formatValue(user.balance)}</span></Text>
         </ContainerBalance>
         <ContainerButtons>
           {buttons.map((button) =>

@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import Script from 'next/script'
 import cookie from 'js-cookie'
 import Image from 'next/image'
+import Head from 'next/head'
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi'
 import styled, { css } from 'styled-components'
 
@@ -56,7 +56,7 @@ function Transfer() {
       return
     }
 
-    if (account.email === user) {
+    if (account.email === user.email) {
       setModalText('Nao pode transferir pra mesmo conta')
       setOpenModal(true)
       setModalType('error')
@@ -64,7 +64,7 @@ function Transfer() {
       return
     }
 
-    const myAccount = localStorage.getItem(user)
+    const myAccount = localStorage.getItem(user.email)
     const myAccountFormatted = JSON.parse(myAccount)
 
     if (myAccountFormatted.balance < transferValue) {
@@ -122,7 +122,7 @@ function Transfer() {
 
   return (
     <Container>
-      <Script>
+      <Head>
         <script
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
@@ -133,7 +133,7 @@ function Transfer() {
             `,
           }}
         />
-      </Script>
+      </Head>
       <HeadLinks />
       <Header>
       <LinkText href='/home'>
