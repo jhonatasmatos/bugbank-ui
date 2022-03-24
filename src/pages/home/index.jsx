@@ -50,6 +50,7 @@ function Home() {
       const u = JSON.parse(user)
 
       if (u.logged) {
+        console.log(user)
         setUser(u)
       }
     })
@@ -141,7 +142,7 @@ function Home() {
           </ContainerText>
 
           <ContainerAccountNumber>
-            <Text>Conta digital: <span>{user.account}</span></Text>
+            <Text>Conta digital: <span>{user.accountNumber}</span></Text>
           </ContainerAccountNumber>
         </ContainerInfos>
       </ContainerInformations>
