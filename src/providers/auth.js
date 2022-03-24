@@ -4,7 +4,12 @@ export const AuthContext = React.createContext({})
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({
-    name: ''
+    name: '',
+    email: '',
+    password: '',
+    accountNumber: '',
+    balance: '',
+    logged: false
   })
 
   return (
