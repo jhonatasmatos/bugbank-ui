@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import { v4 as uuidv4 } from 'uuid';
 import cookie from 'js-cookie'
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi'
 import styled, { css } from 'styled-components'
@@ -12,6 +13,8 @@ import Modal from '../components/Modal'
 import HeadLinks from '../components/HeadLinks'
 
 import { useAuth } from '../providers/auth'
+
+import getDateNow from '../../src/utils/date'
 
 import logo from '../../public/imgs/bugbank.png'
 
@@ -36,27 +39,39 @@ function Index() {
     const responseStorage = localStorage.getItem(email);
     const loggedUser = JSON.parse(responseStorage)
 
+    if (!email || !password) {
+      setModalText('Usuário e senha precisam ser preenchidos')
+      setOpenModal(true)
+      setModalType('error')
+
+      return
+    }
+
+    if (!loggedUser) {
+      setModalText('Usuário ou senha inválido. Tente novamente ou verifique suas informações')
+      setOpenModal(true)
+      setModalType('error')
+
+      return
+    }
+
     const users = allStorage()
 
     users.map((user) => {
       const u = JSON.parse(user)
 
-      if(u.email !== loggedUser.email){
+      if (u.email !== loggedUser.email) {
         u.logged = false
         localStorage.setItem(u.email, JSON.stringify(u))
       }
     })
 
-    if(!loggedUser){
-      setModalText('Usuário ou senha inválido. Tente novamente ou verifique suas informações')
-      setOpenModal(true)
-    }
-
-    if(loggedUser && password === loggedUser.password){
+    if (loggedUser && password === loggedUser.password) {
       setSession(true, loggedUser)
     } else {
       setModalText('Usuário ou senha inválido. Tente novamente ou verifique suas informações')
       setOpenModal(true)
+      setModalType('error')
       setSession(false)
     }
   }
@@ -80,7 +95,7 @@ function Index() {
 
   const handleRegister = () => {
 
-    if(!name){
+    if (!name) {
       setModalText('Nome não pode ser vazio')
       setModalType('error')
       setOpenModal(true)
@@ -88,7 +103,7 @@ function Index() {
       return
     }
 
-    if(!email){
+    if (!email) {
       setModalText('Email não pode ser vazio')
       setModalType('error')
       setOpenModal(true)
@@ -96,7 +111,7 @@ function Index() {
       return
     }
 
-    if(!password){
+    if (!password) {
       setModalText('Senha não pode ser vazio')
       setModalType('error')
       setOpenModal(true)
@@ -104,7 +119,7 @@ function Index() {
       return
     }
 
-    if(!passwordConfirmation){
+    if (!passwordConfirmation) {
       setModalText('Confirmar senha não pode ser vazio')
       setModalType('error')
       setOpenModal(true)
@@ -112,7 +127,7 @@ function Index() {
       return
     }
 
-    if(password !== passwordConfirmation){
+    if (password !== passwordConfirmation) {
       setModalText('As senhas não são iguais')
       setModalType('error')
       setOpenModal(true)
@@ -129,7 +144,16 @@ function Index() {
       logged: false
     }
 
+    const initialBalance = {
+      id: uuidv4(),
+      date: getDateNow(),
+      type: 'Abertura de conta',
+      transferValue: isChecked ? 1000 : 0,
+      description: isChecked ? 'Saldo adicionado ao abrir conta' : 'Cliente optou por não ter saldo ao abrir conta'
+    }
+
     localStorage.setItem(email, JSON.stringify(user))
+    localStorage.setItem(`transaction:${email}`, JSON.stringify([initialBalance]))
     setModalText(`A conta ${account} foi criada com sucesso`)
     setModalType('ok')
     setOpenModal(true)
@@ -138,20 +162,20 @@ function Index() {
 
   const setSession = (session, user) => {
     if (session) {
-        cookie.set('bugbank-auth', session, {
-          expires: 1,
-          path: '/'
-        });
+      cookie.set('bugbank-auth', session, {
+        expires: 1,
+        path: '/'
+      });
 
-        user.logged = true
-        setUser(user)
-        localStorage.setItem(email, JSON.stringify(user))
+      user.logged = true
+      setUser(user)
+      localStorage.setItem(email, JSON.stringify(user))
 
-        router.push({
-          pathname: '/home'
-        })
+      router.push({
+        pathname: '/home'
+      })
     } else {
-        cookie.remove('bugbank-auth');
+      cookie.remove('bugbank-auth');
     }
   }
 

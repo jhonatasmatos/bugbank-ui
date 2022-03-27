@@ -25,7 +25,7 @@ const buttons = [
     "name": "PAGAMENTOS"
   },
   {
-    "href": "/",
+    "href": "/bank-statement",
     "src": '/imgs/bank-statement.png',
     "name": "EXTRATO"
   },
@@ -50,7 +50,6 @@ function Home() {
       const u = JSON.parse(user)
 
       if (u.logged) {
-        console.log(user)
         setUser(u)
       }
     })
@@ -91,7 +90,7 @@ function Home() {
   }
 
   const handleNavigate = (href) => {
-    if (href !== '/transfer') {
+    if (href !== '/transfer' && href !== '/bank-statement') {
       setModalText('Funcionalidade em desenvolvimento')
       setOpenModal(true)
       setModalType('alert')
