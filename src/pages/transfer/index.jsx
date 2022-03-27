@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import { v4 as uuidv4 } from 'uuid';
 import cookie from 'js-cookie'
 import Image from 'next/image'
 import Head from 'next/head'
@@ -13,6 +14,8 @@ import HeadLinks from '../../components/HeadLinks'
 
 import { useAuth } from '../../providers/auth'
 
+import getDateNow from '../../utils/date'
+
 import logo from '../../../public/imgs/bugbank.png'
 
 function Transfer() {
@@ -23,6 +26,7 @@ function Transfer() {
   const [openModal, setOpenModal] = useState(false)
   const [modalText, setModalText] = useState('')
   const [modalType, setModalType] = useState('error')
+  const [redirect, setRedirect] = useState(false)
   const router = useRouter()
   const { user } = useAuth()
 
@@ -81,14 +85,61 @@ function Transfer() {
     account.balance = Number(account.balance) + Number(transferValue)
     localStorage.setItem(account.email, JSON.stringify(account))
 
-    setModalText('Transferencia realizada com sucesso')
-    setOpenModal(true)
-    setModalType('ok')
+    const trxWithdrawal = {
+      id: uuidv4(),
+      date: getDateNow(),
+      type: 'withdrawal',
+      transferValue: -transferValue,
+      description
+    }
+
+    const trxInput = {
+      id: uuidv4(),
+      date: getDateNow(),
+      type: 'input',
+      transferValue: Number(transferValue),
+      description
+    }
+
+    const storageTrxWithdrawal = localStorage.getItem(`transaction:${user.email}`)
+
+    if (!storageTrxWithdrawal) {
+      localStorage.setItem(`transaction:${user.email}`, JSON.stringify([trxWithdrawal]))
+    } else {
+      const storage = localStorage.getItem(`transaction:${user.email}`)
+      const storageParsed = JSON.parse(storage)
+      const newStorage = [...storageParsed, trxWithdrawal]
+
+      localStorage.setItem(`transaction:${user.email}`, JSON.stringify(newStorage))
+    }
+
+    const storageTrxInput = localStorage.getItem(`transaction:${account.email}`)
+
+    if (!storageTrxInput) {
+      localStorage.setItem(`transaction:${account.email}`, JSON.stringify([trxInput]))
+    } else {
+      const storageInput = localStorage.getItem(`transaction:${account.email}`)
+      const storageInputParsed = JSON.parse(storageInput)
+      const newStorageInput = [...storageInputParsed, trxInput]
+
+      localStorage.setItem(`transaction:${account.email}`, JSON.stringify(newStorageInput))
+    }
+
+    if(storageTrxWithdrawal){
+      setModalText('Transferencia realizada com sucesso')
+      setOpenModal(true)
+      setModalType('ok')
+
+      setRedirect(true)
+    }
   }
 
   const closeModal = () => {
     setOpenModal(false)
-    router.back()
+
+    if(redirect){
+      router.push('/bank-statement')
+    }
   }
 
   const handleLogout = () => {
@@ -136,7 +187,7 @@ function Transfer() {
       </Head>
       <HeadLinks />
       <Header>
-      <LinkText href='/home'>
+        <LinkText href='/home'>
           <Image src={logo} width='150' height='54' placeholder='blur' />
         </LinkText>
         <ContainerLink onClick={handleLogout}>
