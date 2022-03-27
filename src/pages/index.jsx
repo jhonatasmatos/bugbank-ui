@@ -193,7 +193,6 @@ function Index() {
   return (
     <Background>
       <HeadLinks />
-
       <TitleBackground>
         <Image src={logo} width='240' height='88' placeholder='blur' />
 
@@ -245,7 +244,6 @@ function Index() {
       {openModal && (
         <Modal type={modalType} text={modalText} onClose={() => setOpenModal(false)} />
       )}
-
     </Background>
   )
 }
