@@ -19,7 +19,10 @@ function Accordion({setAccordionOpened, accordionOpened, title, description }) {
 
       { isOpened &&
         <AccordionBody>
-          {description}
+          {description.map((desc) =>
+            desc
+          )}
+
         </AccordionBody>
       }
     </Container>

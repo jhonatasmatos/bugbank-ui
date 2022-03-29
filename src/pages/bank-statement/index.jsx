@@ -136,7 +136,7 @@ function BankStatement() {
                 </ContainerDateAndType>
                 <ContainerDescAndValue>
                   <Description>
-                    {t.description}
+                    {t.description.length === 0 ? '-' : t.description}
                   </Description>
                   <Value type={t.type}>
                     {formatValue(t.transferValue)}
