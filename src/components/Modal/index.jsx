@@ -36,8 +36,8 @@ function Modal({ type, onClose, text }) {
           {type === 'alert' && (
             <FiAlertCircle size={84} color='yellow' />
           )}
-          <Text>{text}</Text>
-          <Button onClick={handleCloseClick}>Fechar</Button>
+          <Text id='modalText'>{text}</Text>
+          <Button id='btnCloseModal' onClick={handleCloseClick}>Fechar</Button>
         </ContainerInformations>
       </ContainerContent>
     </Container>

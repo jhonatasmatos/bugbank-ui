@@ -11,6 +11,7 @@ import HeadLinks from '../../components/HeadLinks'
 import Image from 'next/image'
 
 import logo from '../../../public/imgs/bugbank.png'
+import img from '../../../public/imgs/transfer_money.svg'
 
 function BankStatement() {
   const router = useRouter()
@@ -23,7 +24,7 @@ function BankStatement() {
     users.map((user) => {
       const u = JSON.parse(user)
 
-      if(u.logged) {
+      if (u.logged) {
         setUser(u)
         getTransactions(u.email)
       }
@@ -99,18 +100,18 @@ function BankStatement() {
           <Image src={logo} width='150' height='54' placeholder='blur' />
         </LinkText>
         <ContainerLink onClick={handleLogout}>
-          <LinkText>Sair</LinkText>
+          <LinkText id='btnExit'>Sair</LinkText>
         </ContainerLink>
       </Header>
 
       <ContainerImage>
         <ContainerBackButton onClick={handleBackButton}>
           <HiOutlineArrowNarrowLeft size={34} style={{ color: '#fff' }} />
-          <BackText>Voltar</BackText>
+          <BackText id='btnBack'>Voltar</BackText>
         </ContainerBackButton>
 
         <ContainerContent>
-          <p>Imagem aqui</p>
+          <Image src={img} width='400' height='400' placeholder='blur' blurDataURL='#' />
         </ContainerContent>
       </ContainerImage>
 
@@ -118,27 +119,27 @@ function BankStatement() {
         <ContainerTransactions>
           <ContainerBalance>
             <LabelText>Saldo disponível</LabelText>
-            <BalanceText>{formatValue(user.balance)}</BalanceText>
+            <BalanceText id='textBalanceAvailable'>{formatValue(user.balance)}</BalanceText>
           </ContainerBalance>
 
           <ContainerTransaction>
             {trxs.map((t) =>
               <Transaction key={t.id}>
                 <ContainerDateAndType>
-                  <Date>
+                  <Date id='textDateTransaction'>
                     {t.date}
                   </Date>
-                  <TypeTransaction>
+                  <TypeTransaction id='textTypeTransaction'>
                     {t.type == 'withdrawal' && 'Transferência enviada'}
                     {t.type == 'input' && 'Transferência recebida'}
                     {t.type !== 'withdrawal' && t.type !== 'input' && 'Abertura de conta'}
                   </TypeTransaction>
                 </ContainerDateAndType>
                 <ContainerDescAndValue>
-                  <Description>
-                    {t.description}
+                  <Description id='textDescription'>
+                    {t.description.length === 0 ? '-' : t.description}
                   </Description>
-                  <Value type={t.type}>
+                  <Value type={t.type} id='textTransferValue'>
                     {formatValue(t.transferValue)}
                   </Value>
                 </ContainerDescAndValue>
@@ -215,7 +216,6 @@ const ContainerContent = styled.div`
   display: flex;
   height: 100%;
   justify-content: center;
-  align-items: center;
 `
 
 const ContainerBackButton = styled.div`
