@@ -99,14 +99,14 @@ function BankStatement() {
           <Image src={logo} width='150' height='54' placeholder='blur' />
         </LinkText>
         <ContainerLink onClick={handleLogout}>
-          <LinkText>Sair</LinkText>
+          <LinkText id='btnExit'>Sair</LinkText>
         </ContainerLink>
       </Header>
 
       <ContainerImage>
         <ContainerBackButton onClick={handleBackButton}>
           <HiOutlineArrowNarrowLeft size={34} style={{ color: '#fff' }} />
-          <BackText>Voltar</BackText>
+          <BackText id='btnBack'>Voltar</BackText>
         </ContainerBackButton>
 
         <ContainerContent>
@@ -118,27 +118,27 @@ function BankStatement() {
         <ContainerTransactions>
           <ContainerBalance>
             <LabelText>Saldo disponível</LabelText>
-            <BalanceText>{formatValue(user.balance)}</BalanceText>
+            <BalanceText id='textBalanceAvailable'>{formatValue(user.balance)}</BalanceText>
           </ContainerBalance>
 
           <ContainerTransaction>
             {trxs.map((t) =>
               <Transaction key={t.id}>
                 <ContainerDateAndType>
-                  <Date>
+                  <Date id='textDateTransaction'>
                     {t.date}
                   </Date>
-                  <TypeTransaction>
+                  <TypeTransaction id='textTypeTransaction'>
                     {t.type == 'withdrawal' && 'Transferência enviada'}
                     {t.type == 'input' && 'Transferência recebida'}
                     {t.type !== 'withdrawal' && t.type !== 'input' && 'Abertura de conta'}
                   </TypeTransaction>
                 </ContainerDateAndType>
                 <ContainerDescAndValue>
-                  <Description>
+                  <Description id='textDescription'>
                     {t.description.length === 0 ? '-' : t.description}
                   </Description>
-                  <Value type={t.type}>
+                  <Value type={t.type} id='textTransferValue'>
                     {formatValue(t.transferValue)}
                   </Value>
                 </ContainerDescAndValue>
