@@ -4,10 +4,10 @@ import {
   Span
 } from './styles'
 
-function ToggleSwitch({ isChecked, onClick }) {
+function ToggleSwitch({ id, isChecked, onClick }) {
   return (
     <Container defaultChecked={isChecked}>
-      <Input defaultChecked={isChecked} type='checkbox' onClick={onClick} />
+      <Input id={id} defaultChecked={isChecked} type='checkbox' onClick={onClick} />
       <Span defaultChecked={isChecked} />
     </Container>
   )

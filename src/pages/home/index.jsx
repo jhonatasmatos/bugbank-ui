@@ -126,7 +126,7 @@ function Home() {
           <Image src={logo} width='150' height='54' placeholder='blur' />
         </LinkText>
         <ContainerLink onClick={handleLogout}>
-          <LinkText>Sair</LinkText>
+          <LinkText id='btnExit'>Sair</LinkText>
         </ContainerLink>
       </Header>
 
@@ -136,24 +136,24 @@ function Home() {
             <LetterName>{user.name.substr(0, 1).toUpperCase()}</LetterName>
           </InitialLetterName>
           <ContainerText>
-            <Text>{`Olá ${user.name},`}</Text>
+            <Text id='textName'>{`Olá ${user.name},`}</Text>
             <Text>{`bem vindo ao BugBank :)`}</Text>
           </ContainerText>
 
           <ContainerAccountNumber>
-            <Text>Conta digital: <span>{user.accountNumber}</span></Text>
+            <Text id='textAccountNumber'>Conta digital: <span>{user.accountNumber}</span></Text>
           </ContainerAccountNumber>
         </ContainerInfos>
       </ContainerInformations>
 
       <ContainerOptions>
         <ContainerBalance>
-          <Text>Saldo em conta <span>R$ {formatValue(user.balance)}</span></Text>
+          <Text id='textBalance'>Saldo em conta <span>R$ {formatValue(user.balance)}</span></Text>
         </ContainerBalance>
         <ContainerButtons>
           {buttons.map((button) =>
             <ContainerButton key={button.src}>
-              <Button onClick={() => handleNavigate(button.href)}>
+              <Button id={`btn-${button.name}`} onClick={() => handleNavigate(button.href)}>
                 <Image src={button.src} width='50' height='50' placeholder='blur' blurDataURL='base64' />
               </Button>
               <TransactionText>{button.name}</TransactionText>

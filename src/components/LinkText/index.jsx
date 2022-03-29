@@ -2,8 +2,8 @@ import {
   LinkText
 } from './styles'
 
-function Link({ href, children }) {
-  return <LinkText href={href}>{children}</LinkText>
+function Link({ id, href, children }) {
+  return <LinkText id={id} href={href}>{children}</LinkText>
 }
 
 export default Link;

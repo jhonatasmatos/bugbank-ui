@@ -207,36 +207,72 @@ function Index() {
         <Wrapper isLogin={isLogin}>
           {isLogin ? (
             <>
-              <InputText value={email} onChange={(t) => setEmail(t.target.value)} label='Email' type='email' />
-              <InputText value={password} onChange={(t) => setPassword(t.target.value)} label='Senha' type='password' />
+              <InputText
+                value={email}
+                onChange={(t) => setEmail(t.target.value)}
+                id='inputEmail'
+                label='Email'
+                type='email'
+              />
+              <InputText
+                value={password}
+                onChange={(t) => setPassword(t.target.value)}
+                id='inputPassword'
+                label='Senha'
+                type='password'
+              />
 
               <ContainerButton>
-                <Button onClick={handleLogin}>Acessar</Button>
-                <Button onClick={changeToRegister} outline>Registrar</Button>
+                <Button id='btnAccess' onClick={handleLogin}>Acessar</Button>
+                <Button id='btnRegister' onClick={changeToRegister} outline>Registrar</Button>
               </ContainerButton>
 
-              <LinkText href='/requirements'>Conheça nossos requisitos</LinkText>
+              <LinkText id='linkKnowRequirements' href='/requirements'>Conheça nossos requisitos</LinkText>
             </>
           ) : (
             <>
               <ContainerBackButton>
                 <HiOutlineArrowNarrowLeft size={26} style={{ color: '#A422E3' }} />
-                <BackText onClick={handleBackButton} href='/'>Voltar ao login</BackText>
+                <BackText id='btnBackButton' onClick={handleBackButton} href='/'>Voltar ao login</BackText>
               </ContainerBackButton>
 
-              <InputText value={name} onChange={(t) => setName(t.target.value)} label='Nome' type='text' />
-              <InputText value={email} onChange={(t) => setEmail(t.target.value)} label='Email' type='email' />
-              <InputText value={password} onChange={(t) => setPassword(t.target.value)} label='Senha' type='password' />
-              <InputText value={passwordConfirmation} onChange={(t) => setPasswordConfirmation(t.target.value)} label='Confirmar senha' type='password' />
+              <InputText
+                value={email}
+                onChange={(t) => setEmail(t.target.value)}
+                id='inputEmail'
+                label='Email'
+                type='email'
+              />
+              <InputText
+                value={name}
+                onChange={(t) => setName(t.target.value)}
+                id='inputName'
+                label='Nome'
+                type='text'
+              />
+              <InputText
+                value={password}
+                onChange={(t) => setPassword(t.target.value)}
+                id='inputPassword'
+                label='Senha'
+                type='password'
+              />
+              <InputText
+                value={passwordConfirmation}
+                onChange={(t) => setPasswordConfirmation(t.target.value)}
+                id='inputPasswordConfirmation'
+                label='Confirmar senha'
+                type='password'
+              />
 
               <ContainerToggle>
                 <ToggleText>
                   Criar conta com saldo ?
                 </ToggleText>
-                <ToggleSwitch isChecked={isChecked} onClick={handleChecked} />
+                <ToggleSwitch id='toggleAddBalance' isChecked={isChecked} onClick={handleChecked} />
               </ContainerToggle>
 
-              <Button onClick={handleRegister} secondary>Cadastrar</Button>
+              <Button id='btnRegister' onClick={handleRegister} secondary>Cadastrar</Button>
             </>
           )}
         </Wrapper>

@@ -191,14 +191,14 @@ function Transfer() {
           <Image src={logo} width='150' height='54' placeholder='blur' />
         </LinkText>
         <ContainerLink onClick={handleLogout}>
-          <LinkText>Sair</LinkText>
+          <LinkText id='btnExit'>Sair</LinkText>
         </ContainerLink>
       </Header>
 
       <ContainerTexts>
         <ContainerBackButton onClick={handleBackButton}>
           <HiOutlineArrowNarrowLeft size={34} style={{ color: '#fff' }} />
-          <BackText>Voltar</BackText>
+          <BackText id='btnBack'>Voltar</BackText>
         </ContainerBackButton>
 
         <TextInformation>
@@ -211,13 +211,37 @@ function Transfer() {
           <FormTitle>Informações para transferência</FormTitle>
 
           <ContainerAccountNumber>
-            <InputText value={accountNumber} onChange={(t) => setAccountNumber(t.target.value)} label='Número da conta' type='number' />
-            <InputText value={digit} onChange={(t) => setDigit(t.target.value)} label='Dígito' type='number' />
+            <InputText
+              value={accountNumber}
+              onChange={(t) => setAccountNumber(t.target.value)}
+              id='inputAccountNumber'
+              label='Número da conta'
+              type='number'
+            />
+            <InputText
+              value={digit}
+              onChange={(t) => setDigit(t.target.value)}
+              id='inputAccountDigit'
+              label='Dígito'
+              type='number'
+            />
           </ContainerAccountNumber>
-          <InputText value={transferValue} onChange={(t) => setTransferValue(t.target.value)} label='Valor da transferência' type='number' />
-          <InputText value={description} onChange={(t) => setDescription(t.target.value)} label='Descrição' type='text' />
+          <InputText
+            value={transferValue}
+            onChange={(t) => setTransferValue(t.target.value)}
+            id='inputTransferValue'
+            label='Valor da transferência'
+            type='number'
+          />
+          <InputText
+            value={description}
+            onChange={(t) => setDescription(t.target.value)}
+            id='inputDescription'
+            label='Descrição'
+            type='text'
+          />
 
-          <Button onClick={handleTransfer} secondary>Transferir agora</Button>
+          <Button id='btnTransferNow' onClick={handleTransfer} secondary>Transferir agora</Button>
         </Form>
       </ContainerForm>
 

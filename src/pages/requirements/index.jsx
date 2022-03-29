@@ -91,7 +91,7 @@ function Requirements() {
           <Image src={logo} width='150' height='54' placeholder='blur' />
         </LinkText>
         <ContainerLink>
-          <LinkText href='/'>Voltar</LinkText>
+          <LinkText id='btnBack' href='/'>Voltar</LinkText>
         </ContainerLink>
       </Header>
 
@@ -99,13 +99,14 @@ function Requirements() {
         <Image src={img} width='300' height='300' placeholder='blur' />
 
         <Text>Gostou do projeto e quer contribuir?</Text>
-        <Link href='https://github.com/jhonatasmatos/bugbank'>Acesse o link do repositório clicando aqui</Link>
+        <Link id='linkGithub' href='https://github.com/jhonatasmatos/bugbank'>Acesse o link do repositório clicando aqui</Link>
       </ContainerImage>
 
       <ContainerRequirements>
         {reqs.map((req, index) => (
           <Accordion
             key={index}
+            id={req.title}
             accordionOpened={accordionOpened}
             setAccordionOpened={toggleAccordionOpened}
             {...req}
