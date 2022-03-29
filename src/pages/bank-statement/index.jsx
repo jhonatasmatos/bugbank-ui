@@ -11,6 +11,7 @@ import HeadLinks from '../../components/HeadLinks'
 import Image from 'next/image'
 
 import logo from '../../../public/imgs/bugbank.png'
+import img from '../../../public/imgs/transfer_money.svg'
 
 function BankStatement() {
   const router = useRouter()
@@ -23,7 +24,7 @@ function BankStatement() {
     users.map((user) => {
       const u = JSON.parse(user)
 
-      if(u.logged) {
+      if (u.logged) {
         setUser(u)
         getTransactions(u.email)
       }
@@ -110,7 +111,7 @@ function BankStatement() {
         </ContainerBackButton>
 
         <ContainerContent>
-          <p>Imagem aqui</p>
+          <Image src={img} width='400' height='400' placeholder='blur' blurDataURL='#' />
         </ContainerContent>
       </ContainerImage>
 
@@ -215,7 +216,6 @@ const ContainerContent = styled.div`
   display: flex;
   height: 100%;
   justify-content: center;
-  align-items: center;
 `
 
 const ContainerBackButton = styled.div`

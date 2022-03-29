@@ -154,7 +154,7 @@ function Home() {
           {buttons.map((button) =>
             <ContainerButton key={button.src}>
               <Button id={`btn-${button.name}`} onClick={() => handleNavigate(button.href)}>
-                <Image src={button.src} width='50' height='50' placeholder='blur' blurDataURL='base64' />
+                <Image src={button.src} width='50' height='50' placeholder='blur' blurDataURL='#' />
               </Button>
               <TransactionText>{button.name}</TransactionText>
             </ContainerButton>
