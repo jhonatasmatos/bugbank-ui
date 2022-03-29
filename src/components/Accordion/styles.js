@@ -27,7 +27,8 @@ export const AccordionHeader = styled.div`
 
 export const AccordionBody = styled.div`
   padding: 1.2rem;
-  line-height: 1.4;
+  line-height: 2.4rem;
+  white-space: pre-wrap;
   color: ${(props) => props.theme.colors.white};
 
   border-left: 1px solid ${(props) => props.theme.colors.white};
