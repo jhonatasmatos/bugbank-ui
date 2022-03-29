@@ -25,27 +25,61 @@ function Requirements() {
   const reqs = [
     {
       title: "Login",
-      description: "Obrigado por escolher o nosso banco Obrigado por escolher o nosso banco  Obrigado por escolher o nosso banco Obrigado por escolher o nosso banco Obrigado por escolher o nosso banco"
+      description: [
+        '- Email e Senha são campos obrigatórios.\n\n',
+        '- Tentativa de acesso sem preencher campos obrigatórios deve exibir a mensagem "Usuário e senha precisam ser preenchidos".\n\n',
+        '- Não deve autorizar o acesso para usuários inválidos ou não cadastrados.\n\n',
+        '- Usuários válidos e cadastros são direcionados para a home.\n\n'
+      ]
     },
     {
       title: "Cadastro",
-      description: "Obrigado por escolher o nosso banco Obrigado por escolher o nosso banco  Obrigado por escolher o nosso banco Obrigado por escolher o nosso banco Obrigado por escolher o nosso banco"
+      description: [
+        '- Os campos Nome, Email, Senha e Confirmação de senha são de preenchimento obrigatório\n\n',
+        '- Tentativa de cadastro sem preencher nome deve visualizar a mensagem "Nome precisa ser vazio"\n\n',
+        '- Tentativa de cadastro sem preencher email deve visualizar a mensagem "Email não pode ser vazio"\n\n',
+        '- Tentativa de cadastro sem preencher senha deve visualizar a mensagem "Senha não pode ser vazio"\n\n',
+        '- Tentativa de cadastro sem preencher confirmação de senha deve visualizar a mensagem "Confirmar senha não pode ser vazio"\n\n',
+        '- Deixar ativo a opção "Criar conta com saldo" deve criar conta com saldo de R$ 1.000,00\n\n',
+        '- Deixar ativo a opção "Criar conta com saldo" deve criar conta com saldo de R$ 0,00\n\n',
+        '- Senha e confirmação de senha precisam ser iguais\n\n',
+        '- Cadastrar conta com sucesso deve exibir número da conta criada\n\n',
+      ]
     },
     {
       title: "Transferência",
-      description: "Obrigado por escolher o nosso banco Obrigado por escolher o nosso banco  Obrigado por escolher o nosso banco Obrigado por escolher o nosso banco Obrigado por escolher o nosso banco"
+      description: [
+        '- Só é permitido transferência para contas válidas\n\n',
+        '- Só é permitido transferência quando saldo é igual ou maior que valor para transferir\n\n',
+        '- Tentativa de transferência para conta inválida deve exibir mensagem de erro "Conta inválida ou inexistente"\n\n',
+        '- Número e digito da conta aceitam apenas númros\n\n',
+        '- Campo descrição é um campo de preenchimento obrigatório\n\n',
+        '- Valor de transferência não pode ser igual ou menor que zero\n\n',
+        '- Ao realizar transferência com sucesso deve ser debitado o valor da conta e exibir a mensagem de "Transferência realizada com sucesso"\n\n',
+        '- Ao realizar uma transferência com sucesso deve ser redirecionado para o extrato\n\n',
+      ]
     },
     {
       title: "Pagamento",
-      description: "Obrigado por escolher o nosso banco Obrigado por escolher o nosso banco  Obrigado por escolher o nosso banco Obrigado por escolher o nosso banco Obrigado por escolher o nosso banco"
+      description: [
+        '- Em desenvolvimento\n',
+      ]
     },
     {
       title: "Extrato",
-      description: "or sit amet, consectetur adipiscing elit. Cras sodales, massa id feugiat porta, ligula tortor consectetur eros, ut auctor felis dolor suscipit tortor. Sed eu augue est. Duis rhoncus ultrices turpis, at accumsan metus vehicula ac. Duis leo arcu, tincidunt vitae aliquet a, viverra sed orci. Morbi porttitor sed enim quis vehicula. Donec vel suscipit justo. Nunc id augue eu nisl vulputate dictum ultricies quis quam. Cras porta felis eu ullamcorper iaculis. Nulla facilisi. Quisque suscipit dui et ipsum pharetra, a blandit metus scelerisque. Nam efficitur imperdiet mi, eget finibus tellus hendrerit id. Mauris condimentum viverra massa ac viverra. Nulla lorem sem, faucibus ac magna quis, ornare porta risus. Aliquam erat volutpat. Sed accumsan,"
+      description: [
+        '- Deve exibir o saldo disponível no momento\n\n',
+        '- Cada transação deve exibir data que foi realizada, tipo da transação (Abertura de conta / Transferência enviada / Transferência recebida)',
+        '- Quando valor for de saida da conta deve estar em vermelho e iniciar com o sinal de menos/negativo(-)\n\n',
+        '- Quando valor for de entrada na conta deve estar em verde\n\n',
+        '- Transações sem comentário devem exibir (-)\n\n'
+      ]
     },
     {
       title: "Saque",
-      description: "Obrigado por escolher o nosso banco Obrigado por escolher o nosso banco  Obrigado por escolher o nosso banco Obrigado por escolher o nosso banco Obrigado por escolher o nosso banco"
+      description: [
+        '- Em desenvolvimento\n',
+      ]
     },
   ]
 
@@ -151,8 +185,11 @@ const ContainerImage = styled.div`
 `
 
 const Link = styled.a`
+  padding: 1rem 3rem;
   decoration: none;
   font-size: 1.6rem;
+  border: 1px solid ${(props) => props.theme.colors.white};
+  border-radius: 0.8rem;
   color: ${(props) => props.theme.colors.white};
 
   &:hover {
