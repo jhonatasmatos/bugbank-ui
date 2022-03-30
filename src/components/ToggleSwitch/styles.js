@@ -32,7 +32,7 @@ export const Span = styled.span`
   left: 0;
   cursor: pointer;
   box-shadow: 2px 2px 4px ${(props) => props.theme.colors.primary};
-
+  transition: all 0.3s;
   ${props => props.defaultChecked && css`
     left: 60%;`
   }
