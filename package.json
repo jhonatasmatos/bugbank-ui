@@ -13,6 +13,7 @@
     "next": "12.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-hook-form": "^7.29.0",
     "react-icons": "^4.3.1",
     "styled-components": "^5.3.3",
     "uuid": "^8.3.2"
