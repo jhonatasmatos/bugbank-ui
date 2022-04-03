@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 //STYLE
 import { ContainerFieldInput } from "./style"
 
@@ -9,7 +11,7 @@ export function FieldInput({
   placeholder,
   messageError,
   register,
-  ...rest
+  // ...rest
 }) {
   return (
     <ContainerFieldInput visible={visible} className="input__child">
@@ -19,9 +21,28 @@ export function FieldInput({
         className="input__default"
         placeholder={placeholder}
         {...register(name)}
-        {...rest}
+        // {...rest}
+        autoComplete="off"
       />
       <p className="input__warging">{messageError}</p>
     </ContainerFieldInput>
   );
+}
+
+
+FieldInput.propTypes = {
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  visible: PropTypes.bool,
+  type: PropTypes.oneOf(["text", "password", "email"]),
+  placeholder: PropTypes.string,
+  messageError: PropTypes.string,
+  register: PropTypes.any.isRequired,
+}
+
+FieldInput.defaultProps = {
+  visible: false,
+  type: "text",
+  placeholder: "",
+  messageError: "",
 }

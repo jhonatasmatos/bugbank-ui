@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const ContainerFieldInput = styled.div`
   position: relative;
   margin-bottom: 10px;
-  padding-bottom: 15px;
+  padding-bottom: 18px;
   .input__label {
     font-size: 1.8rem;
     font-family: ${(props) => props.theme.font.family.default};
@@ -11,7 +11,7 @@ export const ContainerFieldInput = styled.div`
   }
   .input__default {
     width: 100%;
-    padding: 1rem;
+    padding: 1.3rem 1rem;
     border: 1px solid ${(props) => props.theme.colors.primary};
     border-radius: 0.4rem;
     font-size: 1.6rem;

@@ -1,7 +1,5 @@
 import { useState } from 'react'
-import { useRouter } from 'next/router'
 import { v4 as uuidv4 } from 'uuid';
-import cookie from 'js-cookie'
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi'
 import styled, { css } from 'styled-components'
 import Image from 'next/image'
@@ -12,16 +10,11 @@ import ToggleSwitch from '../components/ToggleSwitch'
 import Modal from '../components/Modal'
 import HeadLinks from '../components/HeadLinks'
 
-import { useAuth } from '../providers/auth'
-
 import getDateNow from '../../src/utils/date'
 
 import logo from '../../public/imgs/bugbank.png'
 
-//ASSETS
-// import { CustomIcons }  from '../assets/icons'
-
-//NEW COMPONENTS
+//NEW COMPONENT
 import { FormLogin } from "../components"
 
 
@@ -35,70 +28,20 @@ function Index() {
   const [openModal, setOpenModal] = useState(false)
   const [modalText, setModalText] = useState('')
   const [modalType, setModalType] = useState('error')
-  const router = useRouter()
-  const { setUser } = useAuth()
+
+  function callModal(message) {
+    setModalType('error')
+    setModalText(message)
+    setOpenModal(true)
+  }
 
   const handleBackButton = () => {
     setLogin((prevState) => !prevState)
   }
 
-  const handleLogin = () => {
-    const responseStorage = localStorage.getItem(email);
-    const loggedUser = JSON.parse(responseStorage)
-
-    if (!email || !password) {
-      setModalText('Usuário e senha precisam ser preenchidos')
-      setOpenModal(true)
-      setModalType('error')
-
-      return
-    }
-
-    if (!loggedUser) {
-      setModalText('Usuário ou senha inválido. Tente novamente ou verifique suas informações')
-      setOpenModal(true)
-      setModalType('error')
-
-      return
-    }
-
-    const users = allStorage()
-
-    users.map((user) => {
-      const u = JSON.parse(user)
-
-      if (u.email !== loggedUser.email) {
-        u.logged = false
-        localStorage.setItem(u.email, JSON.stringify(u))
-      }
-    })
-
-    if (loggedUser && password === loggedUser.password) {
-      setSession(true, loggedUser)
-    } else {
-      setModalText('Usuário ou senha inválido. Tente novamente ou verifique suas informações')
-      setOpenModal(true)
-      setModalType('error')
-      setSession(false)
-    }
+  const changeToRegister = () => {
+    setLogin((prevState) => !prevState)
   }
-
-  const allStorage = () => {
-
-    var values = [],
-      keys = Object.keys(localStorage),
-      i = keys.length;
-
-    while (i--) {
-      values.push(localStorage.getItem(keys[i]));
-    }
-
-    return values;
-  }
-
-  // const changeToRegister = () => {
-  //   setLogin((prevState) => !prevState)
-  // }
 
   const handleRegister = () => {
 
@@ -167,24 +110,7 @@ function Index() {
     setLogin(true)
   }
 
-  const setSession = (session, user) => {
-    if (session) {
-      cookie.set('bugbank-auth', session, {
-        expires: 1,
-        path: '/'
-      });
 
-      user.logged = true
-      setUser(user)
-      localStorage.setItem(email, JSON.stringify(user))
-
-      router.push({
-        pathname: '/home'
-      })
-    } else {
-      cookie.remove('bugbank-auth');
-    }
-  }
 
   const generateAccountNumber = () => {
     const account = Math.floor(Math.random() * 1000);
@@ -212,36 +138,13 @@ function Index() {
       </TitleBackground>
       <FormBackground>
         <Wrapper isLogin={isLogin}>
-          {isLogin ? (
-            <FormLogin  />
-            // <>
-            //   <InputText
-            //     value={email}
-            //     onChange={(t) => setEmail(t.target.value)}
-            //     id='inputEmail'
-            //     label='Email'
-            //     type='email'
-            //   />
-            //   <InputText
-            //     value={password}
-            //     onChange={(t) => setPassword(t.target.value)}
-            //     id='inputPassword'
-            //     label='Senha'
-            //     type='password'
-            //   />
-
-            //   <ContainerButton>
-            //     <Button id='btnAccess' onClick={handleLogin}>Acessar</Button>
-            //     <Button id='btnRegister' onClick={changeToRegister} outline>Registrar</Button>
-            //   </ContainerButton>
-
-            //   <LinkText id='linkKnowRequirements' href='/requirements'>Conheça nossos requisitos</LinkText>
-            // </>
-          ) : (
-            <>
+            <div className="card__login">
+              <FormLogin onRegister={changeToRegister} onCallModal={callModal} />
+            </div>
+            <div className="card__register">
               <ContainerBackButton>
                 <HiOutlineArrowNarrowLeft size={26} style={{ color: '#A422E3' }} />
-                <BackText id='btnBackButton' onClick={handleBackButton} href='/'>Voltar ao login</BackText>
+                <BackText id='btnBackButton' onClick={handleBackButton} href='#'>Voltar ao login</BackText>
               </ContainerBackButton>
 
               <InputText
@@ -281,8 +184,7 @@ function Index() {
               </ContainerToggle>
 
               <Button id='btnRegister' onClick={handleRegister} secondary>Cadastrar</Button>
-            </>
-          )}
+            </div>
         </Wrapper>
       </FormBackground>
       {openModal && (
@@ -338,14 +240,39 @@ const FormBackground = styled.div`
 `
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
   width: 35rem;
   height: ${(props) => (props.isLogin ? '42rem' : '58rem')};
   margin-top: 2rem;
-  align-items: center;
-  justify-content: space-around;
   grid-area: form;
+  position: relative;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+  .card__login,
+  .card__register {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    backface-visibility: hidden;
+  }
+  .card__login {
+    ${props => !props.isLogin && css`
+      z-index: 0;
+    `}
+  }
+
+  .card__register {
+    transform: rotateY( 180deg );
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  ${props => !props.isLogin && css`
+    transform: rotateY(180deg);
+  `}
+
   @media(max-width: 460px){
     width: 20rem;
   }
@@ -369,18 +296,6 @@ const BackText = styled.a`
 
   @media(max-width: 460px){
     font-size: 1.6rem;
-  }
-`
-
-const ContainerButton = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-
-  @media(max-width: 760px){
-    flex-direction: column;
-    height: 12rem;
   }
 `
 

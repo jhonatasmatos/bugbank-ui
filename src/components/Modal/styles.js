@@ -5,11 +5,12 @@ export const Container = styled.div`
   width: 100vw;
   height: 100vh;
   position: absolute;
-
+  top: 0 ;
+  left: 0;
   align-items: center;
   justify-content: center;
-
-  background: rgb(0, 0, 0, 0.5)
+  background: rgb(0, 0, 0, 0.5);
+  z-index: 3;
 `
 
 export const ContainerContent = styled.div`
@@ -63,6 +64,7 @@ export const Text = styled.p`
   font-size: 1.8rem;
   text-align: center;
   color: ${(props) => props.theme.colors.secondary};
+  white-space: pre-line;
 `
 
 export const Button = styled.a`
