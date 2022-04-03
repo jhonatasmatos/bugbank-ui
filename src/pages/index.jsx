@@ -8,7 +8,7 @@ import Image from 'next/image'
 
 import InputText from '../components/InputText'
 import ToggleSwitch from '../components/ToggleSwitch'
-import LinkText from '../components/LinkText'
+// import LinkText from '../components/LinkText'
 import Modal from '../components/Modal'
 import HeadLinks from '../components/HeadLinks'
 
@@ -17,6 +17,13 @@ import { useAuth } from '../providers/auth'
 import getDateNow from '../../src/utils/date'
 
 import logo from '../../public/imgs/bugbank.png'
+
+//ASSETS
+// import { CustomIcons }  from '../assets/icons'
+
+//NEW COMPONENTS
+import { FormLogin } from "../components"
+
 
 function Index() {
   const [isLogin, setLogin] = useState(true)
@@ -89,9 +96,9 @@ function Index() {
     return values;
   }
 
-  const changeToRegister = () => {
-    setLogin((prevState) => !prevState)
-  }
+  // const changeToRegister = () => {
+  //   setLogin((prevState) => !prevState)
+  // }
 
   const handleRegister = () => {
 
@@ -206,29 +213,30 @@ function Index() {
       <FormBackground>
         <Wrapper isLogin={isLogin}>
           {isLogin ? (
-            <>
-              <InputText
-                value={email}
-                onChange={(t) => setEmail(t.target.value)}
-                id='inputEmail'
-                label='Email'
-                type='email'
-              />
-              <InputText
-                value={password}
-                onChange={(t) => setPassword(t.target.value)}
-                id='inputPassword'
-                label='Senha'
-                type='password'
-              />
+            <FormLogin  />
+            // <>
+            //   <InputText
+            //     value={email}
+            //     onChange={(t) => setEmail(t.target.value)}
+            //     id='inputEmail'
+            //     label='Email'
+            //     type='email'
+            //   />
+            //   <InputText
+            //     value={password}
+            //     onChange={(t) => setPassword(t.target.value)}
+            //     id='inputPassword'
+            //     label='Senha'
+            //     type='password'
+            //   />
 
-              <ContainerButton>
-                <Button id='btnAccess' onClick={handleLogin}>Acessar</Button>
-                <Button id='btnRegister' onClick={changeToRegister} outline>Registrar</Button>
-              </ContainerButton>
+            //   <ContainerButton>
+            //     <Button id='btnAccess' onClick={handleLogin}>Acessar</Button>
+            //     <Button id='btnRegister' onClick={changeToRegister} outline>Registrar</Button>
+            //   </ContainerButton>
 
-              <LinkText id='linkKnowRequirements' href='/requirements'>Conheça nossos requisitos</LinkText>
-            </>
+            //   <LinkText id='linkKnowRequirements' href='/requirements'>Conheça nossos requisitos</LinkText>
+            // </>
           ) : (
             <>
               <ContainerBackButton>
@@ -287,7 +295,6 @@ function Index() {
 const Background = styled.div`
   display: grid;
   height: 100vh;
-
   grid-template-columns: 60% auto;
   grid-template-areas: "title form";
 
@@ -338,9 +345,7 @@ const Wrapper = styled.div`
   margin-top: 2rem;
   align-items: center;
   justify-content: space-around;
-
   grid-area: form;
-
   @media(max-width: 460px){
     width: 20rem;
   }
