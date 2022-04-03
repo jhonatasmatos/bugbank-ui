@@ -1,10 +1,11 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import cookie from 'js-cookie'
-import { useRouter } from 'next/router';
-import { useAuth } from '../../providers/auth'
+import cookie from "js-cookie"
+import { useRouter } from "next/router";
+import { useAuth } from "../../providers/auth"
+import Image from "next/image";
 
 //COMPONENTS
 import {
@@ -13,12 +14,13 @@ import {
 } from "../index";
 import LinkText from "../LinkText"
 
-
 //STYLE
 import  { ContainerFormLogin  } from "./style"
 
 // UTILS
 import { YupMessage } from "../../utils/yupMessagens";
+import { CustomIcons } from "../../assets/icons";
+import { useState } from "react";
 
 // VALIDATION
 const schema = yup.object({
@@ -29,6 +31,7 @@ const schema = yup.object({
 export function FormLogin({ onRegister, onCallModal }) {
   const router = useRouter()
   const { setUser } = useAuth()
+  const [typeInput, setTypeInput] = useState("password");
   const {
     register,
     handleSubmit,
@@ -42,23 +45,20 @@ export function FormLogin({ onRegister, onCallModal }) {
 
   const setSession = (session, user) => {
     if (session) {
-      cookie.set('bugbank-auth', session, {
+      cookie.set("bugbank-auth", session, {
         expires: 1,
-        path: '/'
+        path: "/"
       });
-
       user.logged = true
       setUser(user)
       localStorage.setItem(user.email, JSON.stringify(user))
-
       router.push({
-        pathname: '/home'
+        pathname: "/home"
       })
     } else {
-      cookie.remove('bugbank-auth');
+      cookie.remove("bugbank-auth");
     }
   }
-
 
   const allStorage = () => {
     var values = [],
@@ -70,35 +70,32 @@ export function FormLogin({ onRegister, onCallModal }) {
     return values;
   }
 
-
   function handleLogin(data) {
     const responseStorage = localStorage.getItem(data.email);
     const loggedUser = JSON.parse(responseStorage)
+
     if (!loggedUser) {
       onCallModal("Usuário ou senha inválido.\nTente novamente ou verifique suas informações!")
       return
     }
 
     const users = allStorage()
-    console.log(users)
 
-      users.map((user) => {
-        const u = JSON.parse(user)
-
-        if (u.email !== loggedUser.email) {
-          u.logged = false
-          localStorage.setItem(u.email, JSON.stringify(u))
-        }
-      })
-
-      if (loggedUser && data.password === loggedUser.password) {
-        setSession(true, loggedUser)
-      } else {
-        onCallModal("Usuário ou senha inválido.\nTente novamente ou verifique suas informações!")
-        setSession(false)
+    users.map((user) => {
+      const u = JSON.parse(user)
+      if (u.email !== loggedUser.email) {
+        u.logged = false
+        localStorage.setItem(u.email, JSON.stringify(u))
       }
-  }
+    })
 
+    if (loggedUser && data.password === loggedUser.password) {
+      setSession(true, loggedUser)
+    } else {
+      onCallModal("Usuário ou senha inválido.\nTente novamente ou verifique suas informações!")
+      setSession(false)
+    }
+  }
 
   return(
     <ContainerFormLogin
@@ -114,16 +111,33 @@ export function FormLogin({ onRegister, onCallModal }) {
         register={register}
         placeholder="Informe seu e-mail"
       />
-      <FieldInput
-        label="Senha"
-        type="password"
-        name="password"
-        visible={!!errors.password}
-        messageError={errors.password?.message}
-        register={register}
-        placeholder="Informe sua senha"
-
-      />
+      <div className="login__password">
+        <FieldInput
+          label="Senha"
+          type={typeInput}
+          name="password"
+          visible={!!errors.password}
+          messageError={errors.password?.message}
+          register={register}
+          placeholder="Informe sua senha"
+        />
+        <button
+          className="login__eye"
+          type="button"
+          onClick={() =>
+            setTypeInput(
+              typeInput === "password" ? "text" : "password"
+            )
+          }
+        >
+          <Image
+            src={typeInput === "password" ? CustomIcons.CloseEye.src : CustomIcons.OpenEye.src}
+            alt={typeInput === "password" ? CustomIcons.CloseEye.alt : CustomIcons.OpenEye.alt}
+            width="26"
+            height="26"
+          />
+        </button>
+      </div>
       <div className="login__buttons">
         <Button
           label="Acessar"
@@ -138,7 +152,7 @@ export function FormLogin({ onRegister, onCallModal }) {
       </div>
       <div className="login__link">
         <LinkText
-          href='/requirements'>
+          href="/requirements">
           Conheça nossos requisitos
         </LinkText>
       </div>

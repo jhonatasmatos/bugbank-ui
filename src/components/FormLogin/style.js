@@ -5,6 +5,27 @@ export const ContainerFormLogin = styled.form`
   flex-direction: column;
   gap: 10px;
   width: 100%;
+  .login__password {
+    position: relative;
+    .input__default {
+      padding-right: 45px;
+    }
+    .login__eye {
+      cursor: pointer;
+      position: absolute;
+      right: 8px;
+      top: 28px;
+      border: none;
+      outline: none;
+      padding: 5px;
+      background-color: transparent;
+      opacity: .5;
+      transition: all 0.3s;
+      :hover {
+        opacity: 1;
+      }
+    }
+  }
   .login__buttons {
     display: flex;
     flex-direction: row;
