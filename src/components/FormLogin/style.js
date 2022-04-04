@@ -39,7 +39,8 @@ export const ContainerFormLogin = styled.form`
   }
   .login__link {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     margin-top: 40px;
 
   }

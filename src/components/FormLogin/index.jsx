@@ -13,9 +13,10 @@ import {
   Button
 } from "../index";
 import LinkText from "../LinkText"
+import WarningText from '../WarningText'
 
 //STYLE
-import  { ContainerFormLogin  } from "./style"
+import  { ContainerFormLogin } from "./style"
 
 // UTILS
 import { YupMessage } from "../../utils/yupMessagens";
@@ -155,6 +156,10 @@ export function FormLogin({ onRegister, onCallModal }) {
           href="/requirements">
           Conheça nossos requisitos
         </LinkText>
+
+        <WarningText>
+          A aplicação não conta com um banco de dados, todas as informações são armazenadas em <span>memória local</span>
+        </WarningText>
       </div>
     </ContainerFormLogin>
   )

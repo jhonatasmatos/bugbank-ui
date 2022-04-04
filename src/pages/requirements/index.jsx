@@ -6,6 +6,7 @@ import Image from 'next/image'
 import LinkText from '../../components/LinkText'
 import Accordion from '../../components/Accordion'
 import HeadLinks from '../../components/HeadLinks'
+import WarningText from '../../components/WarningText'
 
 import logo from '../../../public/imgs/bugbank.png'
 import img from '../../../public/imgs/requirements.png'
@@ -96,10 +97,16 @@ function Requirements() {
       </Header>
 
       <ContainerImage>
-        <Image src={img} width='300' height='300' placeholder='blur' />
+        <ContentImage>
+          <Image src={img} width='245' height='245' placeholder='blur' />
 
-        <Text>Gostou do projeto e quer contribuir?</Text>
-        <Link id='linkGithub' href='https://github.com/jhonatasmatos/bugbank'>Acesse o link do repositório clicando aqui</Link>
+          <Text>Gostou do projeto e quer contribuir?</Text>
+          <Link id='linkGithub' href='https://github.com/jhonatasmatos/bugbank'>Acesse o link do repositório clicando aqui</Link>
+
+          <WarningText color='white'>
+            A aplicação não conta com um banco de dados, todas as informações são armazenadas em <span>memória local</span>
+          </WarningText>
+        </ContentImage>
       </ContainerImage>
 
       <ContainerRequirements>
@@ -178,11 +185,17 @@ const ContainerLink = styled.div`
 
 const ContainerImage = styled.div`
   display: flex;
+  justify-content: center;
+
+  grid-area: image;
+`
+
+const ContentImage = styled.div`
+  display: flex;
+  max-width: 36rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  grid-area: image;
 `
 
 const Link = styled.a`
@@ -211,7 +224,6 @@ const Footer = styled.div`
   display:flex;
   flex-direction: row;
   width: 100%;
-  padding: 0.5rem 0rem;
   align-items: center;
   justify-content: flex-end;
   padding: 0 4rem;
