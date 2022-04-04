@@ -36,12 +36,12 @@ function Requirements() {
       title: "Cadastro",
       description: [
         '- Os campos Nome, Email, Senha e Confirmação de senha são de preenchimento obrigatório\n\n',
-        '- Tentativa de cadastro sem preencher nome deve visualizar a mensagem "Nome precisa ser vazio"\n\n',
+        '- Tentativa de cadastro sem preencher nome deve visualizar a mensagem "Nome não pode ser vazio"\n\n',
         '- Tentativa de cadastro sem preencher email deve visualizar a mensagem "Email não pode ser vazio"\n\n',
         '- Tentativa de cadastro sem preencher senha deve visualizar a mensagem "Senha não pode ser vazio"\n\n',
         '- Tentativa de cadastro sem preencher confirmação de senha deve visualizar a mensagem "Confirmar senha não pode ser vazio"\n\n',
         '- Deixar ativo a opção "Criar conta com saldo" deve criar conta com saldo de R$ 1.000,00\n\n',
-        '- Deixar ativo a opção "Criar conta com saldo" deve criar conta com saldo de R$ 0,00\n\n',
+        '- Deixar inativo a opção "Criar conta com saldo" deve criar conta com saldo de R$ 0,00\n\n',
         '- Senha e confirmação de senha precisam ser iguais\n\n',
         '- Cadastrar conta com sucesso deve exibir número da conta criada\n\n',
       ]
