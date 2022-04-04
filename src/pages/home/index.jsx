@@ -148,7 +148,7 @@ function Home() {
 
       <ContainerOptions>
         <ContainerBalance>
-          <Text id='textBalance'>Saldo em conta <span>R$ {formatValue(user.balance)}</span></Text>
+          <Text id='textBalance'>Saldo em conta <span>{formatValue(user.balance)}</span></Text>
         </ContainerBalance>
         <ContainerButtons>
           {buttons.map((button) =>
