@@ -4,30 +4,24 @@ interface IContainerButton {
   appearance: 'pink' | 'white' | 'purple'
 }
 
-const AppearancePink = css`
-  ${({ theme }) => css`
-    color: ${theme.colors.white};
-    background: ${theme.colors.primary};
-    border: 1px solid ${theme.colors.primary};
-  `}
+const AppearancePink = ({ theme }) => css`
+  color: ${theme.colors.white};
+  background: ${theme.colors.primary};
+  border: 1px solid ${theme.colors.primary};
 `;
 
-const AppearanceWhite = css`
-  ${({ theme }) => css`
-    color: ${theme.colors.secondary};
-    background: ${theme.colors.white};
-    border: 1px solid ${theme.colors.secondary};
-  `}
+const AppearanceWhite = ({ theme }) => css`
+  color: ${theme.colors.secondary};
+  background: ${theme.colors.white};
+  border: 1px solid ${theme.colors.secondary};
 `;
 
-const AppearancePurple = css`
-  ${({ theme }) => css`
-    background: ${theme.colors.secondary};
-    color: ${theme.colors.white};
-  `}
+const AppearancePurple = ({ theme }) => css`
+  background: ${theme.colors.secondary};
+  color: ${theme.colors.white};
 `;
 
-export const ContainerButton = styled.button<IContainerButton>`7
+export const ContainerButton = styled.button<IContainerButton>`
   ${({ theme }) => css`
     filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4));
     width: 100%;
