@@ -2,13 +2,13 @@
 import { ContainerFieldInput } from "./style"
 
 export type FieldInputProps = {
-  label: string,
-  name: string,
-  visible: boolean,
-  type: "text" | "password" | "email",
-  placeholder: string,
-  messageError: string,
-  register: any,
+  label: string;
+  name: string;
+  visible: boolean;
+  type: string;
+  placeholder: string;
+  messageError: string;
+  register: any;
 }
 
 export const FieldInput = ({
