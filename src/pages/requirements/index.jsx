@@ -3,10 +3,13 @@ import styled from 'styled-components'
 
 import Image from 'next/image'
 
-import LinkText from '../../components/LinkText'
-import { Accordion } from '../../components/Accordion'
 import HeadLinks from '../../components/HeadLinks'
-import WarningText from '../../components/WarningText'
+
+import {
+  Accordion,
+  LinkText,
+  WarningText
+} from '../../components'
 
 import logo from '../../../public/imgs/bugbank.png'
 import img from '../../../public/imgs/requirements.png'

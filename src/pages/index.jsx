@@ -4,18 +4,19 @@ import { HiOutlineArrowNarrowLeft } from 'react-icons/hi'
 import styled, { css } from 'styled-components'
 import Image from 'next/image'
 
-import InputText from '../components/InputText'
-import ToggleSwitch from '../components/ToggleSwitch'
-// import LinkText from '../components/LinkText'
-import Modal from '../components/Modal'
 import HeadLinks from '../components/HeadLinks'
 
 import getDateNow from '../../src/utils/date'
 
 import logo from '../../public/imgs/bugbank.png'
 
-//NEW COMPONENT
-import { FormLogin } from "../components"
+//COMPONENTS
+import {
+  FormLogin,
+  InputText,
+  Modal,
+  ToggleSwitch
+} from "../components"
 
 
 function Index() {
@@ -180,7 +181,7 @@ function Index() {
                 <ToggleText>
                   Criar conta com saldo ?
                 </ToggleText>
-                <ToggleSwitch id='toggleAddBalance' isChecked={isChecked} onClick={handleChecked} />
+                <ToggleSwitch id='toggleAddBalance' type='checkbox' isChecked={isChecked} onClick={handleChecked} />
               </ContainerToggle>
 
               <Button id='btnRegister' onClick={handleRegister} secondary>Cadastrar</Button>

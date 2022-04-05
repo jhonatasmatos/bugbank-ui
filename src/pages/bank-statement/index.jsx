@@ -6,9 +6,12 @@ import Head from 'next/head'
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi'
 import styled from 'styled-components'
 
-import LinkText from '../../components/LinkText'
 import HeadLinks from '../../components/HeadLinks'
 import Image from 'next/image'
+
+import {
+  LinkText
+} from '../../components'
 
 import logo from '../../../public/imgs/bugbank.png'
 import img from '../../../public/imgs/transfer_money.svg'

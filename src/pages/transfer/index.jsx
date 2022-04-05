@@ -7,10 +7,13 @@ import Head from 'next/head'
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi'
 import styled, { css } from 'styled-components'
 
-import LinkText from '../../components/LinkText'
-import InputText from '../../components/InputText'
-import Modal from '../../components/Modal'
 import HeadLinks from '../../components/HeadLinks'
+
+import {
+  LinkText,
+  InputText,
+  Modal
+} from '../../components'
 
 import { useAuth } from '../../providers/auth'
 

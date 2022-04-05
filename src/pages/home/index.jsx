@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import styled from 'styled-components'
 import cookie from 'js-cookie'
 import Head from 'next/head'
-
 import Image from 'next/image'
-import styled from 'styled-components'
-import LinkText from '../../components/LinkText'
-import Modal from '../../components/Modal'
+
 import HeadLinks from '../../components/HeadLinks'
+
+import {
+  LinkText,
+  Modal
+} from '../../components'
 
 import { useAuth } from '../../providers/auth'
 
