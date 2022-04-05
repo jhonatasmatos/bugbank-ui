@@ -31,13 +31,13 @@ export const ContainerButton = styled.button<IContainerButton>`
     outline: none;
     font-size: 1.6rem;
     font-family: ${theme.font.family.default};
-  `}
 
-    ${(props) => props.appearance === "pink" && AppearancePink};
-    ${(props) => props.appearance === "white" && AppearanceWhite};
-    ${(props) => props.appearance === "purple" && AppearancePurple};
+    ${(p: IContainerButton) => p.appearance === "pink" && AppearancePink};
+    ${(p: IContainerButton) => p.appearance === "white" && AppearanceWhite};
+    ${(p: IContainerButton) => p.appearance === "purple" && AppearancePurple};
 
     :hover {
       opacity: 0.8;
     }
+  `}
 `;
