@@ -10,10 +10,10 @@ import Image from "next/image";
 //COMPONENTS
 import {
   FieldInput,
-  Button
+  Button,
+  LinkText,
+  WarningText
 } from "../index";
-import LinkText from "../LinkText"
-import WarningText from '../WarningText'
 
 //STYLE
 import  { ContainerFormLogin } from "./style"
@@ -94,7 +94,7 @@ export function FormLogin({ onRegister, onCallModal }) {
       setSession(true, loggedUser)
     } else {
       onCallModal("Usuário ou senha inválido.\nTente novamente ou verifique suas informações!")
-      setSession(false)
+      setSession(false, loggedUser)
     }
   }
 

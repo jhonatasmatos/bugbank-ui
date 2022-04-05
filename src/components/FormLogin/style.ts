@@ -5,11 +5,13 @@ export const ContainerFormLogin = styled.form`
   flex-direction: column;
   gap: 10px;
   width: 100%;
+
   .login__password {
     position: relative;
     .input__default {
       padding-right: 45px;
     }
+
     .login__eye {
       cursor: pointer;
       position: absolute;
@@ -26,6 +28,7 @@ export const ContainerFormLogin = styled.form`
       }
     }
   }
+
   .login__buttons {
     display: flex;
     flex-direction: row;
@@ -37,11 +40,11 @@ export const ContainerFormLogin = styled.form`
       height: 12rem;
     }
   }
+
   .login__link {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 40px;
-
   }
 `;
