@@ -11,7 +11,7 @@ import { BiErrorCircle, BiCheckCircle } from 'react-icons/bi'
 import { FiAlertCircle } from 'react-icons/fi'
 
 export type ModalProps = {
-  type: 'error' | 'ok' | 'alert';
+  type: string;
   onClose: () => void;
   text: string;
 }
