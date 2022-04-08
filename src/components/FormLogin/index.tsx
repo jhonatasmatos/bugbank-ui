@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -29,7 +28,12 @@ const schema = yup.object({
   password: yup.string().required(YupMessage.requiredField)
 });
 
-export function FormLogin({ onRegister, onCallModal }) {
+export type FormLoginProps = {
+  onRegister: () => void;
+  onCallModal: (arg: string) => void;
+}
+
+export const FormLogin = ({ onRegister, onCallModal }: FormLoginProps)=> {
   const router = useRouter()
   const { setUser } = useAuth()
   const [typeInput, setTypeInput] = useState("password");
@@ -163,10 +167,4 @@ export function FormLogin({ onRegister, onCallModal }) {
       </div>
     </ContainerFormLogin>
   )
-}
-
-
-FormLogin.propTypes = {
-  onRegister: PropTypes.func.isRequired,
-  onCallModal: PropTypes.func.isRequired,
 }
