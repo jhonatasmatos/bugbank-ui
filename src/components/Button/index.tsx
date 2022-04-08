@@ -1,10 +1,11 @@
 import { ContainerButton } from "./style"
 
 export type ButtonProps = {
+  id?: string;
   label: string,
   type?: "submit" | "button",
   disabled?: boolean,
-  onClick?(): void,
+  onClick?: () => void,
   appearance?: 'pink' | 'white' | 'purple',
 }
 

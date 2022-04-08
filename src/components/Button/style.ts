@@ -1,7 +1,9 @@
 import styled, { css} from 'styled-components'
 
-interface IContainerButton {
-  appearance: 'pink' | 'white' | 'purple'
+
+type ContainerButtonProps = {
+  appearance: 'pink' | 'white' | 'purple';
+  secondary?: boolean;
 }
 
 const AppearancePink = ({ theme }) => css`
@@ -21,7 +23,7 @@ const AppearancePurple = ({ theme }) => css`
   color: ${theme.colors.white};
 `;
 
-export const ContainerButton = styled.button<IContainerButton>`
+export const ContainerButton = styled.button<ContainerButtonProps>`
   ${({ theme }) => css`
     filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4));
     width: 100%;
@@ -32,9 +34,9 @@ export const ContainerButton = styled.button<IContainerButton>`
     font-size: 1.6rem;
     font-family: ${theme.font.family.default};
 
-    ${(p: IContainerButton) => p.appearance === "pink" && AppearancePink};
-    ${(p: IContainerButton) => p.appearance === "white" && AppearanceWhite};
-    ${(p: IContainerButton) => p.appearance === "purple" && AppearancePurple};
+    ${(p: ContainerButtonProps) => p.appearance === "pink" && AppearancePink};
+    ${(p: ContainerButtonProps) => p.appearance === "white" && AppearanceWhite};
+    ${(p: ContainerButtonProps) => p.appearance === "purple" && AppearancePurple};
 
     :hover {
       opacity: 0.8;
