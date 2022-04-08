@@ -1,14 +1,14 @@
 import styled, { css } from 'styled-components'
 
-interface IContainerFieldInput {
+type ContainerFieldInputProps = {
   visible: boolean
 }
 
 export const ContainerFieldInput = styled.div`
   ${({ theme }) => css`
     position: relative;
-    margin-bottom: 10px;
-    padding-bottom: 18px;
+    margin-bottom: 8px;
+    padding-bottom: 16px;
 
     .input__label {
       font-size: 1.8rem;
@@ -34,7 +34,7 @@ export const ContainerFieldInput = styled.div`
     }
 
     .input__warging {
-      opacity: ${(p: IContainerFieldInput) => p.visible ? 1 : 0};
+      opacity: ${(p: ContainerFieldInputProps) => p.visible ? 1 : 0};
       bottom: -25px;
       position: absolute;
       transition: all 0.3s;
