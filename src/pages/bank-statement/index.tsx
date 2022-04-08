@@ -329,10 +329,12 @@ const ContainerDescAndValue = styled.div`
 const TypeTransaction = styled.p`
   color: ${(props) => props.theme.colors.primary};
 `
-
+type ValueProps = {
+  type: string;
+}
 const Value = styled.p`
   font-weight: bold;
-  color: ${props => props.type !== 'withdrawal' ? 'green' : 'red'}
+  color: ${(p: ValueProps) => p.type !== 'withdrawal' ? 'green' : 'red'}
 `
 
 const Description = styled.p`
