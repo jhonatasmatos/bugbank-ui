@@ -7,7 +7,7 @@ import {
 export type InputTextProps = {
   value: string;
   id: string;
-  onChange(): void;
+  onChange: (arg: string) => void;
   label: string;
   type: string;
 }
