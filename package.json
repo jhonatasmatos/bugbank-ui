@@ -23,6 +23,7 @@
   "devDependencies": {
     "@types/react": "^17.0.43",
     "@types/styled-components": "^5.1.24",
+    "@types/uuid": "^8.3.4",
     "@types/yup": "^0.29.13",
     "babel-plugin-inline-react-svg": "^2.0.1",
     "babel-plugin-styled-components": "^2.0.6",
