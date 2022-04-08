@@ -5,10 +5,11 @@ import {
 
 export type LinkProps = {
   id?: string;
-  href: string;
+  href?: string;
   children: ReactNode;
+  onClick?: () => void;
 }
 
-export const LinkText = ({ id, href, children }: LinkProps) => {
-  return <Link id={id} href={href}>{children}</Link>
+export const LinkText = ({ id, href, children, onClick }: LinkProps) => {
+  return <Link id={id} href={href} onClick={onClick}>{children}</Link>
 }
