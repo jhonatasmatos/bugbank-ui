@@ -3,20 +3,22 @@ import styled from 'styled-components'
 
 import Image from 'next/image'
 
-import LinkText from '../../components/LinkText'
-import Accordion from '../../components/Accordion'
-import HeadLinks from '../../components/HeadLinks'
-import WarningText from '../../components/WarningText'
+import {
+  Accordion,
+  LinkText,
+  WarningText,
+  HeadLinks
+} from '../../components'
 
 import logo from '../../../public/imgs/bugbank.png'
 import img from '../../../public/imgs/requirements.png'
 
 function Requirements() {
-  const [accordionOpened, setAccordionOpened] = useState(null);
+  const [accordionOpened, setAccordionOpened] = useState('');
 
   const toggleAccordionOpened = (accordion) => {
     if (accordionOpened === accordion) {
-      setAccordionOpened(null);
+      setAccordionOpened('');
     } else {
       setAccordionOpened(accordion);
     }
@@ -99,7 +101,6 @@ function Requirements() {
       <ContainerImage>
         <ContentImage>
           <Image src={img} width='245' height='245' placeholder='blur' />
-
           <Text>Gostou do projeto e quer contribuir?</Text>
           <Link id='linkGithub' href='https://github.com/jhonatasmatos/bugbank'>Acesse o link do repositório clicando aqui</Link>
 

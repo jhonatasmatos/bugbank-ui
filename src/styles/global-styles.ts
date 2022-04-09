@@ -1,6 +1,11 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components'
+import { theme } from '../styles/theme'
 
-export const GlobalStyles = createGlobalStyle`
+type ThemeProps = {
+  theme: typeof theme;
+}
+
+export const GlobalStyles = createGlobalStyle<ThemeProps>`
   * {
     margin: 0;
     padding: 0;
@@ -15,13 +20,13 @@ export const GlobalStyles = createGlobalStyle`
     font-family: ${({ theme }) => theme.font.family.default};
   }
   h1 {
-    font-family: ${({ theme }) => theme.font.family.title};
+    font-family: ${({ theme }) => theme.font.family.default};
   }
   p {
     margin: ${({ theme }) => theme.spacings.medium} 0;
   }
   a {
-    color: ${({ theme }) => theme.colors.secondaryColor};
+    color: ${({ theme }) => theme.colors.secondary};
     text-decoration: none;
   }
 `;

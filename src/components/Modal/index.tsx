@@ -10,7 +10,13 @@ import {
 import { BiErrorCircle, BiCheckCircle } from 'react-icons/bi'
 import { FiAlertCircle } from 'react-icons/fi'
 
-function Modal({ type, onClose, text }) {
+export type ModalProps = {
+  type: string;
+  onClose: () => void;
+  text: string;
+}
+
+export const Modal = ({ type, onClose, text }: ModalProps) => {
 
   const handleCloseClick = (e) => {
     e.preventDefault()
@@ -43,5 +49,3 @@ function Modal({ type, onClose, text }) {
     </Container>
   )
 }
-
-export default Modal;

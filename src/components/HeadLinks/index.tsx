@@ -1,4 +1,4 @@
-function HeadLinks() {
+export const HeadLinks = () => {
   return (
     <>
       <title>BugBank | O banco com bugs e falhas do seu jeito</title>
@@ -12,5 +12,3 @@ function HeadLinks() {
     </>
   )
 }
-
-export default HeadLinks;

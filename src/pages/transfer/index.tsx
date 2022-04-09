@@ -1,16 +1,17 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import { v4 as uuidv4 } from 'uuid';
-import cookie from 'js-cookie'
 import Image from 'next/image'
 import Head from 'next/head'
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
+import cookie from 'js-cookie'
 
-import LinkText from '../../components/LinkText'
-import InputText from '../../components/InputText'
-import Modal from '../../components/Modal'
-import HeadLinks from '../../components/HeadLinks'
+import {
+  LinkText,
+  FormTransfer,
+  Modal,
+  HeadLinks
+} from '../../components'
 
 import { useAuth } from '../../providers/auth'
 
@@ -34,104 +35,10 @@ function Transfer() {
     router.back()
   }
 
-  const handleTransfer = () => {
-    const items = allStorage()
-
-    if (Number(transferValue) < 0 || Number(transferValue) === 0) {
-      setModalText('Valor da transferência não pode ser 0 ou negativo')
-      setOpenModal(true)
-      setModalType('error')
-
-      return
-    }
-
-    let account
-    items.map((item) => {
-      if (item.includes(`${accountNumber}-${digit}`)) {
-        account = JSON.parse(item)
-      }
-    })
-
-    if (!account) {
-      setModalText('Conta inválida ou inexistente')
-      setOpenModal(true)
-      setModalType('error')
-
-      return
-    }
-
-    if (account.email === user.email) {
-      setModalText('Nao pode transferir pra mesmo conta')
-      setOpenModal(true)
-      setModalType('error')
-
-      return
-    }
-
-    const myAccount = localStorage.getItem(user.email)
-    const myAccountFormatted = JSON.parse(myAccount)
-
-    if (myAccountFormatted.balance < transferValue) {
-      setModalText('Você não tem saldo suficiente para essa transação')
-      setOpenModal(true)
-      setModalType('error')
-
-      return
-    }
-
-    myAccountFormatted.balance = Number(myAccountFormatted.balance) - Number(transferValue)
-    localStorage.setItem(myAccountFormatted.email, JSON.stringify(myAccountFormatted))
-
-    account.balance = Number(account.balance) + Number(transferValue)
-    localStorage.setItem(account.email, JSON.stringify(account))
-
-    const trxWithdrawal = {
-      id: uuidv4(),
-      date: getDateNow(),
-      type: 'withdrawal',
-      transferValue: -transferValue,
-      description
-    }
-
-    const trxInput = {
-      id: uuidv4(),
-      date: getDateNow(),
-      type: 'input',
-      transferValue: Number(transferValue),
-      description
-    }
-
-    const storageTrxWithdrawal = localStorage.getItem(`transaction:${user.email}`)
-
-    if (!storageTrxWithdrawal) {
-      localStorage.setItem(`transaction:${user.email}`, JSON.stringify([trxWithdrawal]))
-    } else {
-      const storage = localStorage.getItem(`transaction:${user.email}`)
-      const storageParsed = JSON.parse(storage)
-      const newStorage = [...storageParsed, trxWithdrawal]
-
-      localStorage.setItem(`transaction:${user.email}`, JSON.stringify(newStorage))
-    }
-
-    const storageTrxInput = localStorage.getItem(`transaction:${account.email}`)
-
-    if (!storageTrxInput) {
-      localStorage.setItem(`transaction:${account.email}`, JSON.stringify([trxInput]))
-    } else {
-      const storageInput = localStorage.getItem(`transaction:${account.email}`)
-      const storageInputParsed = JSON.parse(storageInput)
-      const newStorageInput = [...storageInputParsed, trxInput]
-
-      localStorage.setItem(`transaction:${account.email}`, JSON.stringify(newStorageInput))
-    }
-
-    if(storageTrxWithdrawal){
-      setModalText('Transferencia realizada com sucesso')
-      setOpenModal(true)
-      setModalType('ok')
-
-      setRedirect(true)
-    }
+  function callModal(message: string) {
+    setModalType('error')
+    setModalText(message)
+    setOpenModal(true)
   }
 
   const closeModal = () => {
@@ -140,11 +47,6 @@ function Transfer() {
     if(redirect){
       router.push('/bank-statement')
     }
-  }
-
-  const handleLogout = () => {
-    setSession(false)
-    router.push('/')
   }
 
   const setSession = (session) => {
@@ -158,18 +60,12 @@ function Transfer() {
     }
   }
 
-  const allStorage = () => {
 
-    var values = [],
-      keys = Object.keys(localStorage),
-      i = keys.length;
-
-    while (i--) {
-      values.push(localStorage.getItem(keys[i]));
-    }
-
-    return values;
+  const handleLogout = () => {
+    setSession(false)
+    router.push('/')
   }
+
 
   return (
     <Container>
@@ -207,7 +103,8 @@ function Transfer() {
       </ContainerTexts>
 
       <ContainerForm>
-        <Form>
+        <FormTransfer onCallModal={callModal} />
+        {/* <Form>
           <FormTitle>Informações para transferência</FormTitle>
 
           <ContainerAccountNumber>
@@ -242,7 +139,7 @@ function Transfer() {
           />
 
           <Button id='btnTransferNow' onClick={handleTransfer} secondary>Transferir agora</Button>
-        </Form>
+        </Form> */}
       </ContainerForm>
 
       <Footer>
@@ -384,53 +281,10 @@ const ContainerForm = styled.div`
   grid-area: form;
 `
 
-const Button = styled.a`
-  display: flex;
-  width: 16rem;
-  height: 5rem;
-  border-radius: 0.8rem;
-  margin-top: 1rem;
-  align-items: center;
-  justify-content: center;
 
-  cursor: pointer;
-
-  color: ${(props) => props.theme.colors.white};
-  background: ${(props) => props.theme.colors.primary};
-  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4));
-
-  ${props => props.outline && css`
-    color: ${(props) => props.theme.colors.secondary};
-    background: ${(props) => props.theme.colors.white};
-    border: 1px solid ${(props) => props.theme.colors.secondary};`
-  }
-
-  ${props => props.secondary && css`
-    width: 100%;
-    background: ${(props) => props.theme.colors.secondary};`
-  }
-
-  &:hover {
-    opacity: 0.8;
-  }
-
-  @media(max-width: 780px){
-    width: 100%;
-  }
-`
 
 const Form = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 2rem 5rem;
-  width: 50rem;
-  height: 44rem;
-  margin-top: 5rem;
-  border-radius: 2rem;
 
-  background: ${(props) => props.theme.colors.white};
-  grid-area: form;
 `
 
 const Footer = styled.div`

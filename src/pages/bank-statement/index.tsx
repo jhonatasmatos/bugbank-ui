@@ -6,9 +6,12 @@ import Head from 'next/head'
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi'
 import styled from 'styled-components'
 
-import LinkText from '../../components/LinkText'
-import HeadLinks from '../../components/HeadLinks'
 import Image from 'next/image'
+
+import {
+  LinkText,
+  HeadLinks
+} from '../../components'
 
 import logo from '../../../public/imgs/bugbank.png'
 import img from '../../../public/imgs/transfer_money.svg'
@@ -326,10 +329,12 @@ const ContainerDescAndValue = styled.div`
 const TypeTransaction = styled.p`
   color: ${(props) => props.theme.colors.primary};
 `
-
+type ValueProps = {
+  type: string;
+}
 const Value = styled.p`
   font-weight: bold;
-  color: ${props => props.type !== 'withdrawal' ? 'green' : 'red'}
+  color: ${(p: ValueProps) => p.type !== 'withdrawal' ? 'green' : 'red'}
 `
 
 const Description = styled.p`
