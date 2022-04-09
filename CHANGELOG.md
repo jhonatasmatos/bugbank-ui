@@ -2,6 +2,15 @@
 Below is a list of all new features and breaking changes.
 
 
+## 1.1.2 (April 04, 2022)
+
+* Changed from .js and .jsx to .ts and .tsx
+   - Changed all files from .js and .jsx to .ts and .tsx, improving development and ensuring component typing
+
+* Updated react version
+   - Versão do react atualizada da versão 17.0.2 para a versão 18.0.0
+
+
 ## 1.0.2 (April 04, 2022)
 
 * Bug fix of requirements texts
