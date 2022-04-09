@@ -3,12 +3,11 @@ import styled from 'styled-components'
 
 import Image from 'next/image'
 
-import HeadLinks from '../../components/HeadLinks'
-
 import {
   Accordion,
   LinkText,
-  WarningText
+  WarningText,
+  HeadLinks
 } from '../../components'
 
 import logo from '../../../public/imgs/bugbank.png'
@@ -102,7 +101,6 @@ function Requirements() {
       <ContainerImage>
         <ContentImage>
           <Image src={img} width='245' height='245' placeholder='blur' />
-
           <Text>Gostou do projeto e quer contribuir?</Text>
           <Link id='linkGithub' href='https://github.com/jhonatasmatos/bugbank'>Acesse o link do repositório clicando aqui</Link>
 

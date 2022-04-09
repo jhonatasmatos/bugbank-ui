@@ -5,11 +5,10 @@ import cookie from 'js-cookie'
 import Head from 'next/head'
 import Image from 'next/image'
 
-import HeadLinks from '../../components/HeadLinks'
-
 import {
   LinkText,
-  Modal
+  Modal,
+  HeadLinks
 } from '../../components'
 
 import { useAuth } from '../../providers/auth'

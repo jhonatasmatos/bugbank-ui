@@ -5,12 +5,12 @@ import Head from 'next/head'
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi'
 import styled from 'styled-components'
 import cookie from 'js-cookie'
-import HeadLinks from '../../components/HeadLinks'
 
 import {
   LinkText,
   FormTransfer,
-  Modal
+  Modal,
+  HeadLinks
 } from '../../components'
 
 import { useAuth } from '../../providers/auth'

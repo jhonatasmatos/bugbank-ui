@@ -2,14 +2,13 @@ import { useState } from 'react'
 import styled, { css } from 'styled-components'
 import Image from 'next/image'
 
-import HeadLinks from '../components/HeadLinks'
-
 import logo from '../../public/imgs/bugbank.png'
 
 //COMPONENTS
 import {
   FormLogin,
-  Modal
+  Modal,
+  HeadLinks
 } from "../components"
 import { FormRegister } from '../components/FormRegister';
 

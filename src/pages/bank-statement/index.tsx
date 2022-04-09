@@ -6,11 +6,11 @@ import Head from 'next/head'
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi'
 import styled from 'styled-components'
 
-import HeadLinks from '../../components/HeadLinks'
 import Image from 'next/image'
 
 import {
-  LinkText
+  LinkText,
+  HeadLinks
 } from '../../components'
 
 import logo from '../../../public/imgs/bugbank.png'

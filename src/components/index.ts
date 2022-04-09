@@ -9,4 +9,5 @@ export { Accordion } from './Accordion'
 export { InputText } from './InputText'
 export { Modal } from './Modal'
 export { ToggleSwitch } from './ToggleSwitch'
+export { HeadLinks } from './HeadLinks'
 
