@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export const ContainerFormLogin = styled.form`
   display: flex;
@@ -21,7 +21,7 @@ export const ContainerFormLogin = styled.form`
       outline: none;
       padding: 5px;
       background-color: transparent;
-      opacity: .5;
+      opacity: 0.5;
       transition: all 0.3s;
       :hover {
         opacity: 1;
@@ -35,7 +35,7 @@ export const ContainerFormLogin = styled.form`
     justify-content: space-between;
     column-gap: 25px;
     margin-top: 15px;
-    @media(max-width: 760px){
+    @media (max-width: 760px) {
       flex-direction: column;
       height: 12rem;
     }

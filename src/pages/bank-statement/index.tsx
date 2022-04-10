@@ -1,86 +1,98 @@
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import { useAuth } from '../../providers/auth'
-import cookie from 'js-cookie'
-import Head from 'next/head'
-import { HiOutlineArrowNarrowLeft } from 'react-icons/hi'
-import styled from 'styled-components'
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import cookie from 'js-cookie';
+import Head from 'next/head';
+import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
+import styled from 'styled-components';
 
-import Image from 'next/image'
+import Image from 'next/image';
 
-import {
-  LinkText,
-  HeadLinks
-} from '../../components'
+import { LinkText, HeadLinks } from '../../components';
 
-import logo from '../../../public/imgs/bugbank.png'
-import img from '../../../public/imgs/transfer_money.svg'
+import logo from '../../../public/imgs/bugbank.png';
+import img from '../../../public/imgs/transfer_money.svg';
+
+interface UserProps {
+  name: string;
+  email: string;
+  password: string;
+  accountNumber: string;
+  balance: number;
+  logged: boolean;
+}
 
 function BankStatement() {
-  const router = useRouter()
-  const { user, setUser } = useAuth()
-  const [trxs, setTrxs] = useState([])
+  const router = useRouter();
+  const [trxs, setTrxs] = useState([]);
+  const [loggedUser, setLoggedUser] = useState<UserProps>({
+    name: '',
+    email: '',
+    password: '',
+    accountNumber: '',
+    balance: 0,
+    logged: false,
+  });
 
   useEffect(() => {
-    const users = allStorage()
+    const users = allStorage();
 
     users.map((user) => {
-      const u = JSON.parse(user)
+      const u = JSON.parse(user);
 
       if (u.logged) {
-        setUser(u)
-        getTransactions(u.email)
+        setLoggedUser(u);
+        getTransactions(u.email);
       }
-    })
-  }, [])
+    });
+  }, [setLoggedUser]);
 
-  const getTransactions = (userEmail) => {
-    const trxStorage = localStorage.getItem(`transaction:${userEmail}`)
-    const trxsParsed = JSON.parse(trxStorage)
-    setTrxs(trxsParsed)
-  }
+  const getTransactions = (userEmail: string) => {
+    const trxStorage = localStorage.getItem(`transaction:${userEmail}`);
+    const trxsParsed = JSON.parse(trxStorage);
+    setTrxs(trxsParsed);
+  };
 
   const allStorage = () => {
-
-    var values = [],
-      keys = Object.keys(localStorage),
-      i = keys.length;
+    const values = [];
+    const keys = Object.keys(localStorage);
+    let i = keys.length;
 
     while (i--) {
       values.push(localStorage.getItem(keys[i]));
     }
 
     return values;
-  }
+  };
 
   const handleBackButton = () => {
-    router.back()
-  }
+    router.back();
+  };
 
   const handleLogout = () => {
+    loggedUser.logged = false;
+    localStorage.setItem(loggedUser.email, JSON.stringify(loggedUser));
 
-    user.logged = false
-    setUser(user)
-    localStorage.setItem(user.email, JSON.stringify(user))
-
-    setSession(false)
-    router.push('/')
-  }
+    setSession(false);
+    router.push('/');
+  };
 
   const formatValue = (value) => {
-    return value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
-  }
+    return value.toLocaleString('pt-br', {
+      style: 'currency',
+      currency: 'BRL',
+    });
+  };
 
   const setSession = (session) => {
     if (session) {
       cookie.set('bugbank-auth', session, {
         expires: 1,
-        path: '/'
-      })
+        path: '/',
+      });
     } else {
-      cookie.remove('bugbank-auth')
+      cookie.remove('bugbank-auth');
     }
-  }
+  };
 
   return (
     <Container>
@@ -99,22 +111,28 @@ function BankStatement() {
 
       <HeadLinks />
       <Header>
-        <LinkText href='/home'>
-          <Image src={logo} width='150' height='54' placeholder='blur' />
+        <LinkText href="/home">
+          <Image src={logo} width="150" height="54" placeholder="blur" />
         </LinkText>
         <ContainerLink onClick={handleLogout}>
-          <LinkText id='btnExit'>Sair</LinkText>
+          <LinkText id="btnExit">Sair</LinkText>
         </ContainerLink>
       </Header>
 
       <ContainerImage>
         <ContainerBackButton onClick={handleBackButton}>
           <HiOutlineArrowNarrowLeft size={34} style={{ color: '#fff' }} />
-          <BackText id='btnBack'>Voltar</BackText>
+          <BackText id="btnBack">Voltar</BackText>
         </ContainerBackButton>
 
         <ContainerContent>
-          <Image src={img} width='400' height='400' placeholder='blur' blurDataURL='#' />
+          <Image
+            src={img}
+            width="400"
+            height="400"
+            placeholder="blur"
+            blurDataURL="#"
+          />
         </ContainerContent>
       </ContainerImage>
 
@@ -122,58 +140,63 @@ function BankStatement() {
         <ContainerTransactions>
           <ContainerBalance>
             <LabelText>Saldo disponível</LabelText>
-            <BalanceText id='textBalanceAvailable'>{formatValue(user.balance)}</BalanceText>
+            <BalanceText id="textBalanceAvailable">
+              {formatValue(loggedUser.balance)}
+            </BalanceText>
           </ContainerBalance>
 
           <ContainerTransaction>
-            {trxs.map((t) =>
+            {trxs.map((t) => (
               <Transaction key={t.id}>
                 <ContainerDateAndType>
-                  <Date id='textDateTransaction'>
-                    {t.date}
-                  </Date>
-                  <TypeTransaction id='textTypeTransaction'>
+                  <Date id="textDateTransaction">{t.date}</Date>
+                  <TypeTransaction id="textTypeTransaction">
                     {t.type == 'withdrawal' && 'Transferência enviada'}
                     {t.type == 'input' && 'Transferência recebida'}
-                    {t.type !== 'withdrawal' && t.type !== 'input' && 'Abertura de conta'}
+                    {t.type !== 'withdrawal' &&
+                      t.type !== 'input' &&
+                      'Abertura de conta'}
                   </TypeTransaction>
                 </ContainerDateAndType>
                 <ContainerDescAndValue>
-                  <Description id='textDescription'>
+                  <Description id="textDescription">
                     {t.description.length === 0 ? '-' : t.description}
                   </Description>
-                  <Value type={t.type} id='textTransferValue'>
+                  <Value type={t.type} id="textTransferValue">
                     {formatValue(t.transferValue)}
                   </Value>
                 </ContainerDescAndValue>
               </Transaction>
-            )}
+            ))}
           </ContainerTransaction>
         </ContainerTransactions>
       </ContainerReceipt>
     </Container>
-  )
+  );
 }
 
 const Container = styled.div`
-height: 100vh;
-width: 100vw;
-display: grid;
-grid-template-columns: 1fr 1fr;
-grid-template-rows: 7.4rem auto;
-grid-template-areas:
-  "header header"
-  "image receipt";
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 7.4rem auto;
+  grid-template-areas:
+    'header header'
+    'image receipt';
 
-background-image: linear-gradient(
-  to right bottom, ${(props) => props.theme.colors.primary}, ${(props) => props.theme.colors.secondary});
+  background-image: linear-gradient(
+    to right bottom,
+    ${(props) => props.theme.colors.primary},
+    ${(props) => props.theme.colors.secondary}
+  );
 
-  @media(max-width: 780px){
+  @media (max-width: 780px) {
     display: flex;
     flex-direction: column;
     height: 100%;
   }
-`
+`;
 
 const Header = styled.div`
   display: flex;
@@ -185,27 +208,27 @@ const Header = styled.div`
 
   grid-area: header;
 
-  @media(max-width: 600px){
+  @media (max-width: 600px) {
     margin-top: 1.2rem;
   }
-`
+`;
 
 const ContainerLink = styled.div`
   display: flex;
   width: 10rem;
   height: 3.4rem;
-  border-radius: .6rem;
+  border-radius: 0.6rem;
   justify-content: center;
   align-items: center;
   cursor: pointer;
 
   background: ${(props) => props.theme.colors.white};
 
-  @media(max-width: 600px){
+  @media (max-width: 600px) {
     width: 4rem;
     height: 3rem;
   }
-`
+`;
 
 const ContainerImage = styled.div`
   display: flex;
@@ -213,13 +236,13 @@ const ContainerImage = styled.div`
   padding-top: 5rem;
 
   grid-area: image;
-`
+`;
 
 const ContainerContent = styled.div`
   display: flex;
   height: 100%;
   justify-content: center;
-`
+`;
 
 const ContainerBackButton = styled.div`
   width: 100%;
@@ -228,7 +251,7 @@ const ContainerBackButton = styled.div`
   flex-direction: row;
   align-items: center;
   cursor: pointer;
-`
+`;
 
 const BackText = styled.a`
   font-size: 1.8rem;
@@ -237,13 +260,13 @@ const BackText = styled.a`
   cursor: pointer;
 
   &:hover {
-    opacity: 0.8
+    opacity: 0.8;
   }
 
-  @media(max-width: 460px){
+  @media (max-width: 460px) {
     font-size: 1.6rem;
   }
-`
+`;
 
 const ContainerReceipt = styled.div`
   display: flex;
@@ -251,7 +274,7 @@ const ContainerReceipt = styled.div`
   align-items: center;
 
   grid-area: receipt;
-`
+`;
 
 const ContainerTransactions = styled.div`
   width: 50rem;
@@ -269,9 +292,9 @@ const ContainerTransactions = styled.div`
     display: none;
   }
 
-  border-radius: .8rem;
+  border-radius: 0.8rem;
   background: ${(props) => props.theme.colors.white};
-`
+`;
 
 const ContainerBalance = styled.div`
   display: flex;
@@ -284,67 +307,67 @@ const ContainerBalance = styled.div`
   padding: 0.5rem 1.2rem;
 
   border-bottom: 1px solid ${(props) => props.theme.colors.secondary};
-`
+`;
 
 const LabelText = styled.p`
   color: ${(props) => props.theme.colors.secondary};
-`
+`;
 
 const BalanceText = styled.p`
   margin: 0;
   font-size: 2rem;
   font-weight: bold;
   color: ${(props) => props.theme.colors.secondary};
-`
+`;
 
 const ContainerTransaction = styled.div`
   width: 100%;
   height: 40rem;
-`
+`;
 
 const Transaction = styled.div`
   display: block;
   flex-direction: column;
   width: 100%;
-  border-radius: .6rem;
+  border-radius: 0.6rem;
   justify-content: center;
   align-items: center;
   margin-bottom: 1.5rem;
   padding: 0 3rem;
 
   border: 1px solid ${(props) => props.theme.colors.secondary};
-`
+`;
 
 const ContainerDateAndType = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`
+`;
 
 const ContainerDescAndValue = styled.div`
   display: flex;
   justify-content: space-between;
-`
+`;
 
 const TypeTransaction = styled.p`
   color: ${(props) => props.theme.colors.primary};
-`
+`;
 type ValueProps = {
   type: string;
-}
+};
 const Value = styled.p`
   font-weight: bold;
-  color: ${(p: ValueProps) => p.type !== 'withdrawal' ? 'green' : 'red'}
-`
+  color: ${(p: ValueProps) => (p.type !== 'withdrawal' ? 'green' : 'red')};
+`;
 
 const Description = styled.p`
   max-width: 20rem;
   color: ${(props) => props.theme.colors.primary};
-`
+`;
 
 const Date = styled.p`
   margin: 0;
   color: ${(props) => props.theme.colors.primary};
-`
+`;
 
-export default BankStatement
+export default BankStatement;

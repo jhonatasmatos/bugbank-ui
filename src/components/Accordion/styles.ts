@@ -1,7 +1,7 @@
-import styled, { css } from 'styled-components'
+import styled, { css } from 'styled-components';
 
 interface IAccordionHeader {
-  isOpened: boolean
+  isOpened: boolean;
 }
 
 export const Container = styled.div`
@@ -9,7 +9,7 @@ export const Container = styled.div`
   padding: 0 8rem;
 
   margin-bottom: 1.6rem;
-`
+`;
 
 export const AccordionHeader = styled.div<IAccordionHeader>`
   ${({ theme }) => css`
@@ -25,10 +25,12 @@ export const AccordionHeader = styled.div<IAccordionHeader>`
     border: 1px solid ${theme.colors.white};
   `}
 
-  ${props => props.isOpened && css`
-    border-bottom: none;`
-  }
-`
+  ${(props) =>
+    props.isOpened &&
+    css`
+      border-bottom: none;
+    `}
+`;
 
 export const AccordionBody = styled.div`
   ${({ theme }) => css`
@@ -41,4 +43,4 @@ export const AccordionBody = styled.div`
     border-right: 1px solid ${theme.colors.white};
     border-bottom: 1px solid ${theme.colors.white};
   `}
-`
+`;

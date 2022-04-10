@@ -1,25 +1,22 @@
-import {
-  Container,
-  AccordionHeader,
-  AccordionBody
-} from './styles'
+import { Container, AccordionHeader, AccordionBody } from './styles';
 
-import { FiMinus, FiPlus } from 'react-icons/fi'
+import { FiMinus, FiPlus } from 'react-icons/fi';
 
 export type AccordionProps = {
   id: string;
-  setAccordionOpened: Function;
+  setAccordionOpened: (arg: string) => void;
   accordionOpened: string;
   title: string;
   description: string[];
-}
+};
 
 export const Accordion = ({
-    id,
-    setAccordionOpened,
-    accordionOpened,
-    title,
-    description }: AccordionProps) => {
+  id,
+  setAccordionOpened,
+  accordionOpened,
+  title,
+  description,
+}: AccordionProps) => {
   const isOpened = title === accordionOpened;
 
   return (
@@ -33,14 +30,11 @@ export const Accordion = ({
         {isOpened ? <FiMinus size={26} /> : <FiPlus size={26} />}
       </AccordionHeader>
 
-      { isOpened &&
+      {isOpened && (
         <AccordionBody id={`textAccordion${id}`}>
-          {description.map((desc) =>
-            desc
-          )}
-
+          {description.map((desc) => desc)}
         </AccordionBody>
-      }
+      )}
     </Container>
-  )
-}
+  );
+};

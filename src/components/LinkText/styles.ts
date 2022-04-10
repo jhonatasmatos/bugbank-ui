@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled, { css } from 'styled-components';
 
 export const Link = styled.a`
   ${({ theme }) => css`
@@ -7,11 +7,11 @@ export const Link = styled.a`
     cursor: pointer;
 
     &:hover {
-      opacity: 0.8
+      opacity: 0.8;
     }
 
-    @media(max-width: 460px){
+    @media (max-width: 460px) {
       font-size: 1.6rem;
     }
   `}
-`
+`;

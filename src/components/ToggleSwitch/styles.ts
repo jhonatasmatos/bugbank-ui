@@ -1,8 +1,8 @@
-import styled, { css } from 'styled-components'
+import styled, { css } from 'styled-components';
 
 type Props = {
-  isChecked: boolean
-}
+  isChecked: boolean;
+};
 
 export const Container = styled.label`
   ${({ theme }) => css`
@@ -17,17 +17,19 @@ export const Container = styled.label`
     position: relative;
     background: ${theme.colors.gray};
 
-    ${(p: Props) => p.isChecked && css`
-      background: ${theme.colors.primary};`
-    }
+    ${(p: Props) =>
+      p.isChecked &&
+      css`
+        background: ${theme.colors.primary};
+      `}
   `}
-`
+`;
 
 export const Input = styled.label`
   width: 100%;
   height: 100%;
   opacity: 0;
-`
+`;
 
 export const Span = styled.span`
   ${({ theme }) => css`
@@ -41,8 +43,10 @@ export const Span = styled.span`
     box-shadow: 2px 2px 4px ${theme.colors.primary};
     transition: all 0.3s;
 
-    ${(p: Props) => p.isChecked && css`
-      left: 60%;`
-    }
+    ${(p: Props) =>
+      p.isChecked &&
+      css`
+        left: 60%;
+      `}
   `}
-`
+`;

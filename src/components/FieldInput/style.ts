@@ -1,8 +1,8 @@
-import styled, { css } from 'styled-components'
+import styled, { css } from 'styled-components';
 
 type ContainerFieldInputProps = {
-  visible: boolean
-}
+  visible: boolean;
+};
 
 export const ContainerFieldInput = styled.div`
   ${({ theme }) => css`
@@ -30,11 +30,10 @@ export const ContainerFieldInput = styled.div`
         outline: none;
         box-shadow: 0px 0px 0px 1px ${theme.colors.primary};
       }
-
     }
 
     .input__warging {
-      opacity: ${(p: ContainerFieldInputProps) => p.visible ? 1 : 0};
+      opacity: ${(p: ContainerFieldInputProps) => (p.visible ? 1 : 0)};
       bottom: -25px;
       position: absolute;
       transition: all 0.3s;

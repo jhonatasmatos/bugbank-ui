@@ -1,111 +1,121 @@
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import styled from 'styled-components'
-import cookie from 'js-cookie'
-import Head from 'next/head'
-import Image from 'next/image'
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import styled from 'styled-components';
+import cookie from 'js-cookie';
+import Head from 'next/head';
+import Image from 'next/image';
 
-import {
-  LinkText,
-  Modal,
-  HeadLinks
-} from '../../components'
+import { LinkText, Modal, HeadLinks } from '../../components';
 
-import { useAuth } from '../../providers/auth'
-
-import logo from '../../../public/imgs/bugbank.png'
+import logo from '../../../public/imgs/bugbank.png';
 
 const buttons = [
   {
-    "href": "/transfer",
-    "src": '/imgs/transfer.png',
-    "name": "TRANSFERÊNCIA"
+    href: '/transfer',
+    src: '/imgs/transfer.png',
+    name: 'TRANSFERÊNCIA',
   },
   {
-    "href": "/",
-    "src": '/imgs/payments.png',
-    "name": "PAGAMENTOS"
+    href: '/',
+    src: '/imgs/payments.png',
+    name: 'PAGAMENTOS',
   },
   {
-    "href": "/bank-statement",
-    "src": '/imgs/bank-statement.png',
-    "name": "EXTRATO"
+    href: '/bank-statement',
+    src: '/imgs/bank-statement.png',
+    name: 'EXTRATO',
   },
   {
-    "href": "/",
-    "src": '/imgs/withdraw.png',
-    "name": "SAQUE"
-  }
-]
+    href: '/',
+    src: '/imgs/withdraw.png',
+    name: 'SAQUE',
+  },
+];
+
+interface UserProps {
+  name: string;
+  email: string;
+  password: string;
+  accountNumber: string;
+  balance: number;
+  logged: boolean;
+}
 
 function Home() {
-  const router = useRouter()
-  const [openModal, setOpenModal] = useState(false)
-  const [modalText, setModalText] = useState('')
-  const [modalType, setModalType] = useState('error')
-  const { user, setUser } = useAuth()
+  const router = useRouter();
+  const [openModal, setOpenModal] = useState(false);
+  const [modalText, setModalText] = useState('');
+  const [modalType, setModalType] = useState('error');
+  const [loggedUser, setLoggedUser] = useState<UserProps>({
+    name: '',
+    email: '',
+    password: '',
+    accountNumber: '',
+    balance: 0,
+    logged: false,
+  });
 
   useEffect(() => {
-    const users = allStorage()
+    const users = allStorage();
 
     users.map((user) => {
-      const u = JSON.parse(user)
+      const u = JSON.parse(user);
 
       if (u.logged) {
-        setUser(u)
+        setLoggedUser(u);
       }
-    })
-  }, [])
+    });
+  }, [setLoggedUser]);
 
   const allStorage = () => {
-
-    var values = [],
-      keys = Object.keys(localStorage),
-      i = keys.length;
+    const values = [];
+    const keys = Object.keys(localStorage);
+    let i = keys.length;
 
     while (i--) {
       values.push(localStorage.getItem(keys[i]));
     }
 
     return values;
-  }
+  };
 
   const handleLogout = () => {
+    loggedUser.logged = false;
+    localStorage.setItem(loggedUser.email, JSON.stringify(loggedUser));
 
-    user.logged = false
-    setUser(user)
-    localStorage.setItem(user.email, JSON.stringify(user))
-
-    setSession(false)
-    router.push('/')
-  }
+    setSession(false);
+    router.push('/');
+  };
 
   const setSession = (session) => {
     if (session) {
       cookie.set('bugbank-auth', session, {
         expires: 1,
-        path: '/'
-      })
+        path: '/',
+      });
     } else {
-      cookie.remove('bugbank-auth')
+      cookie.remove('bugbank-auth');
     }
-  }
+  };
 
   const handleNavigate = (href) => {
     if (href !== '/transfer' && href !== '/bank-statement') {
-      setModalText('Funcionalidade em desenvolvimento')
-      setOpenModal(true)
-      setModalType('alert')
+      setModalText('Funcionalidade em desenvolvimento');
+      setOpenModal(true);
+      setModalType('alert');
     } else {
       router.push({
-        pathname: href
-      })
+        pathname: href,
+      });
     }
-  }
+  };
 
   const formatValue = (value) => {
-    return value.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
-  }
+    return value.toLocaleString('pt-br', {
+      style: 'currency',
+      currency: 'BRL',
+    });
+  };
 
   return (
     <Container>
@@ -124,43 +134,58 @@ function Home() {
 
       <HeadLinks />
       <Header>
-        <LinkText href='/home'>
-          <Image src={logo} width='150' height='54' placeholder='blur' />
+        <LinkText href="/home">
+          <Image src={logo} width="150" height="54" placeholder="blur" />
         </LinkText>
         <ContainerLink onClick={handleLogout}>
-          <LinkText id='btnExit'>Sair</LinkText>
+          <LinkText id="btnExit">Sair</LinkText>
         </ContainerLink>
       </Header>
 
       <ContainerInformations>
         <ContainerInfos>
           <InitialLetterName>
-            <LetterName>{user.name.substr(0, 1).toUpperCase()}</LetterName>
+            <LetterName>
+              {loggedUser.name.substr(0, 1).toUpperCase()}
+            </LetterName>
           </InitialLetterName>
           <ContainerText>
-            <Text id='textName'>{`Olá ${user.name},`}</Text>
+            <Text id="textName">{`Olá ${loggedUser.name},`}</Text>
             <Text>{`bem vindo ao BugBank :)`}</Text>
           </ContainerText>
 
           <ContainerAccountNumber>
-            <Text id='textAccountNumber'>Conta digital: <span>{user.accountNumber}</span></Text>
+            <Text id="textAccountNumber">
+              Conta digital: <span>{loggedUser.accountNumber}</span>
+            </Text>
           </ContainerAccountNumber>
         </ContainerInfos>
       </ContainerInformations>
 
       <ContainerOptions>
         <ContainerBalance>
-          <Text id='textBalance'>Saldo em conta <span>{formatValue(user.balance)}</span></Text>
+          <Text id="textBalance">
+            Saldo em conta <span>{formatValue(loggedUser.balance)}</span>
+          </Text>
         </ContainerBalance>
         <ContainerButtons>
-          {buttons.map((button) =>
+          {buttons.map((button) => (
             <ContainerButton key={button.src}>
-              <Button id={`btn-${button.name}`} onClick={() => handleNavigate(button.href)}>
-                <Image src={button.src} width='50' height='50' placeholder='blur' blurDataURL='#' />
+              <Button
+                id={`btn-${button.name}`}
+                onClick={() => handleNavigate(button.href)}
+              >
+                <Image
+                  src={button.src}
+                  width="50"
+                  height="50"
+                  placeholder="blur"
+                  blurDataURL="#"
+                />
               </Button>
               <TransactionText>{button.name}</TransactionText>
             </ContainerButton>
-          )}
+          ))}
         </ContainerButtons>
       </ContainerOptions>
 
@@ -168,10 +193,14 @@ function Home() {
         <Text>Obrigado por escolher o nosso banco</Text>
       </Footer>
       {openModal && (
-        <Modal type={modalType} text={modalText} onClose={() => setOpenModal(false)} />
+        <Modal
+          type={modalType}
+          text={modalText}
+          onClose={() => setOpenModal(false)}
+        />
       )}
     </Container>
-  )
+  );
 }
 
 const Container = styled.div`
@@ -181,18 +210,21 @@ const Container = styled.div`
   grid-template-columns: 30% auto;
   grid-template-rows: 7.4rem auto 5.4rem;
   grid-template-areas:
-    "header header"
-    "profile options"
-    "footer footer";
+    'header header'
+    'profile options'
+    'footer footer';
 
   background-image: linear-gradient(
-    to right bottom, ${(props) => props.theme.colors.primary}, ${(props) => props.theme.colors.secondary});
+    to right bottom,
+    ${(props) => props.theme.colors.primary},
+    ${(props) => props.theme.colors.secondary}
+  );
 
-    @media(max-width: 600px){
-      display: flex;
-      flex-direction: column;
-    }
-`
+  @media (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+  }
+`;
 
 const Header = styled.div`
   display: flex;
@@ -204,27 +236,27 @@ const Header = styled.div`
 
   grid-area: header;
 
-  @media(max-width: 600px){
+  @media (max-width: 600px) {
     margin-top: 1.2rem;
   }
-`
+`;
 
 const ContainerLink = styled.div`
   display: flex;
   width: 10rem;
   height: 3.4rem;
-  border-radius: .6rem;
+  border-radius: 0.6rem;
   justify-content: center;
   align-items: center;
   cursor: pointer;
 
   background: ${(props) => props.theme.colors.white};
 
-  @media(max-width: 600px){
+  @media (max-width: 600px) {
     width: 4rem;
     height: 3rem;
   }
-`
+`;
 
 const ContainerInformations = styled.div`
   width: 100%;
@@ -232,10 +264,10 @@ const ContainerInformations = styled.div`
 
   grid-area: profile;
 
-  @media(max-width: 600px){
+  @media (max-width: 600px) {
     height: 70%;
   }
-`
+`;
 
 const ContainerInfos = styled.div`
   display: flex;
@@ -247,11 +279,11 @@ const ContainerInfos = styled.div`
 
   border-right: 1px solid ${(props) => props.theme.colors.white};
 
-  @media(max-width: 600px){
+  @media (max-width: 600px) {
     border-bottom: 1px solid ${(props) => props.theme.colors.white};
     border-right: none;
   }
-`
+`;
 
 const InitialLetterName = styled.div`
   display: flex;
@@ -264,16 +296,16 @@ const InitialLetterName = styled.div`
 
   background: ${(props) => props.theme.colors.black};
 
-  @media(max-width: 760px){
+  @media (max-width: 760px) {
     width: 10rem;
     height: 10rem;
   }
-`
+`;
 
 const LetterName = styled.h1`
   color: ${(props) => props.theme.colors.white};
   font-size: 5.4rem;
-`
+`;
 
 const ContainerText = styled.div`
   display: flex;
@@ -283,7 +315,7 @@ const ContainerText = styled.div`
 
   align-items: center;
   justify-content: center;
-`
+`;
 
 const ContainerAccountNumber = styled.div`
   display: flex;
@@ -293,10 +325,10 @@ const ContainerAccountNumber = styled.div`
   align-items: center;
   justify-content: center;
 
-  @media(max-width: 600px){
+  @media (max-width: 600px) {
     margin-top: 1.4rem;
   }
-`
+`;
 
 const Text = styled.p`
   color: ${(props) => props.theme.colors.white};
@@ -309,20 +341,20 @@ const Text = styled.p`
     font-weight: bold;
   }
 
-  @media(max-width: 760px){
+  @media (max-width: 760px) {
     font-size: 1.4rem;
   }
-`
+`;
 
 const TransactionText = styled.p`
   color: ${(props) => props.theme.colors.white};
   font-size: 1.6rem;
   text-align: center;
 
-  @media(max-width: 760px){
+  @media (max-width: 760px) {
     font-size: 1rem;
   }
-`
+`;
 
 const ContainerOptions = styled.div`
   display: grid;
@@ -332,27 +364,27 @@ const ContainerOptions = styled.div`
 
   grid-template-rows: 2fr 3fr 1fr;
   grid-template-areas:
-    "balance"
-    "buttons"
-    "footer";
+    'balance'
+    'buttons'
+    'footer';
 
-  @media(max-width: 600px){
+  @media (max-width: 600px) {
     height: 90%;
     display: flex;
     flex-direction: column;
     padding: 0;
   }
-`
+`;
 
 const ContainerBalance = styled.div`
-  display:flex;
+  display: flex;
   width: 100%;
   height: 5.4rem;
   align-items: center;
   justify-content: center;
 
   grid-area: balance;
-`
+`;
 
 const ContainerButtons = styled.div`
   display: flex;
@@ -363,19 +395,19 @@ const ContainerButtons = styled.div`
 
   grid-area: buttons;
 
-  @media(max-width: 1100px){
+  @media (max-width: 1100px) {
     padding: 0 5rem;
   }
 
-  @media(max-width: 760px){
+  @media (max-width: 760px) {
     padding: 0 3rem;
   }
 
-  @media(max-width: 600px){
+  @media (max-width: 600px) {
     padding: 0 3rem;
     overflow: visible;
   }
-`
+`;
 
 const ContainerButton = styled.div`
   display: flex;
@@ -384,11 +416,11 @@ const ContainerButton = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  @media(max-width: 900px){
+  @media (max-width: 900px) {
     height: 14rem;
     width: 10rem;
   }
-`
+`;
 
 const Button = styled.a`
   display: flex;
@@ -404,27 +436,30 @@ const Button = styled.a`
   border: 1px solid ${(props) => props.theme.colors.white};
   filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
 
-  background-image:
-    linear-gradient(40deg, ${(props) => props.theme.colors.secondary} 26%, rgba(164, 34, 227, 0) 80%);
+  background-image: linear-gradient(
+    40deg,
+    ${(props) => props.theme.colors.secondary} 26%,
+    rgba(164, 34, 227, 0) 80%
+  );
 
   &:hover {
     transform: scale(1.1);
     transition: all 0.2s;
   }
 
-  @media(max-width: 1100px){
+  @media (max-width: 1100px) {
     width: 10rem;
     height: 10rem;
   }
 
-  @media(max-width: 600px){
+  @media (max-width: 600px) {
     width: 8rem;
     height: 8rem;
   }
-`
+`;
 
 const Footer = styled.div`
-  display:flex;
+  display: flex;
   flex-direction: row;
   width: 100%;
   padding: 0.5rem 4rem;
@@ -433,9 +468,9 @@ const Footer = styled.div`
 
   grid-area: footer;
 
-  @media(max-width: 600px){
+  @media (max-width: 600px) {
     justify-content: center;
   }
-`
+`;
 
 export default Home;

@@ -1,17 +1,17 @@
-import styled, { css } from 'styled-components'
+import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
   width: 100vw;
   height: 100vh;
   position: absolute;
-  top: 0 ;
+  top: 0;
   left: 0;
   align-items: center;
   justify-content: center;
   background: rgb(0, 0, 0, 0.5);
   z-index: 3;
-`
+`;
 
 export const ContainerContent = styled.div`
   ${({ theme }) => css`
@@ -22,10 +22,10 @@ export const ContainerContent = styled.div`
     padding: 2.5rem;
     border-radius: 1.5rem;
     position: relative;
-    animation-duration: .5s;
+    animation-duration: 0.5s;
     animation-name: slidein;
 
-    @keyframes slidein  {
+    @keyframes slidein {
       from {
         top: -100%;
       }
@@ -33,12 +33,11 @@ export const ContainerContent = styled.div`
       to {
         top: 0;
       }
+    }
 
-  }
-
-    background: ${theme.colors.white}
+    background: ${theme.colors.white};
   `}
-`
+`;
 
 export const ContainerCloseButton = styled.div`
   ${({ theme }) => css`
@@ -50,10 +49,10 @@ export const ContainerCloseButton = styled.div`
 
     a {
       font-size: 3rem;
-      color: ${theme.colors.secondary}
+      color: ${theme.colors.secondary};
     }
   `}
-`
+`;
 
 export const ContainerInformations = styled.div`
   height: 100%;
@@ -62,7 +61,7 @@ export const ContainerInformations = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-`
+`;
 
 export const Text = styled.p`
   ${({ theme }) => css`
@@ -71,7 +70,7 @@ export const Text = styled.p`
     color: ${theme.colors.secondary};
     white-space: pre-line;
   `}
-`
+`;
 
 export const Button = styled.a`
   ${({ theme }) => css`
@@ -95,4 +94,4 @@ export const Button = styled.a`
       opacity: 0.8;
     }
   `}
-`
+`;

@@ -1,12 +1,10 @@
-import { useState } from 'react'
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuidv4 } from 'uuid';
-import { HiOutlineArrowNarrowLeft } from 'react-icons/hi'
-import { useRouter } from "next/router";
-import { useAuth } from "../../providers/auth"
-import Image from "next/image";
+import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
+import Image from 'next/image';
 
 import {
   ContainerFormRegister,
@@ -14,111 +12,113 @@ import {
   ContainerToggle,
   ToggleText,
   BackText,
-} from './styles'
+} from './styles';
 
-import {
-  FieldInput,
-  ToggleSwitch,
-  Button
-} from "../../components"
+import { FieldInput, ToggleSwitch, Button } from '../../components';
 
 // UTILS
-import { YupMessage } from "../../utils/yupMessagens";
-import { CustomIcons } from "../../assets/icons";
+import { YupMessage } from '../../utils/yupMessagens';
+import { CustomIcons } from '../../assets/icons';
 
 // VALIDATION
 const schema = yup.object({
   name: yup.string(),
-  email: yup.string().email(YupMessage.invalidformat).required(YupMessage.requiredField),
+  email: yup
+    .string()
+    .email(YupMessage.invalidformat)
+    .required(YupMessage.requiredField),
   password: yup.string().required(YupMessage.requiredField),
-  passwordConfirmation: yup.string().required(YupMessage.requiredField)
+  passwordConfirmation: yup.string().required(YupMessage.requiredField),
 });
 
-import getDateNow from '../../utils/date'
+import getDateNow from '../../utils/date';
 
 export type FormRegisterProps = {
   onBack: () => void;
-  onCallModal: (arg: string) => void;
-}
+  onCallModal: (type: string, message: string) => void;
+};
 
 export const FormRegister = ({ onBack, onCallModal }: FormRegisterProps) => {
-  const router = useRouter()
-  const { setUser } = useAuth()
-  const [isChecked, setChecked] = useState(false)
-  const [typeInputPassword, setTypeInputPassword] = useState("password");
-  const [typeInputPasswordConfirmation, setTypeInputPasswordConfirmation] = useState("password");
+  const [isChecked, setChecked] = useState(false);
+  const [typeInputPassword, setTypeInputPassword] = useState('password');
+  const [typeInputPasswordConfirmation, setTypeInputPasswordConfirmation] =
+    useState('password');
 
   const {
     register,
     handleSubmit,
-    reset,
-    formState: { errors }
+    formState: { errors },
   } = useForm({
-    mode: "all",
-    resolver: yupResolver(schema)
+    mode: 'all',
+    resolver: yupResolver(schema),
   });
 
   const handleRegister = (data) => {
     const { name, email, password, passwordConfirmation } = data;
     if (!name) {
-      onCallModal("Nome não pode ser vazio.\n")
-      return
+      onCallModal('error', 'Nome não pode ser vazio.\n');
+      return;
     }
 
     if (!email) {
-      onCallModal("Email não pode ser vazio.\n")
-      return
+      onCallModal('error', 'Email não pode ser vazio.\n');
+      return;
     }
 
     if (!password) {
-      onCallModal("Senha não pode ser vazio.\n")
-      return
+      onCallModal('error', 'Senha não pode ser vazio.\n');
+      return;
     }
 
     if (!passwordConfirmation) {
-      onCallModal("Confirmação de senha não pode ser vazio.\n")
-      return
+      onCallModal('error', 'Confirmação de senha não pode ser vazio.\n');
+      return;
     }
 
     if (data.password !== data.passwordConfirmation) {
-      onCallModal("As senhas não são iguais.\n")
-      return
+      onCallModal('error', 'As senhas não são iguais.\n');
+      return;
     }
 
-    const account = generateAccountNumber()
+    const account = generateAccountNumber();
     const user = {
       name,
       email,
       password,
       accountNumber: account,
       balance: isChecked ? 1000 : 0,
-      logged: false
-    }
+      logged: false,
+    };
 
     const initialBalance = {
       id: uuidv4(),
       date: getDateNow(),
       type: 'Abertura de conta',
       transferValue: isChecked ? 1000 : 0,
-      description: isChecked ? 'Saldo adicionado ao abrir conta' : 'Cliente optou por não ter saldo ao abrir conta'
-    }
-    console.log(user)
-    console.log(initialBalance)
+      description: isChecked
+        ? 'Saldo adicionado ao abrir conta'
+        : 'Cliente optou por não ter saldo ao abrir conta',
+    };
 
-    localStorage.setItem(email, JSON.stringify(user))
-    localStorage.setItem(`transaction:${email}`, JSON.stringify([initialBalance]))
-  }
+    localStorage.setItem(email, JSON.stringify(user));
+    localStorage.setItem(
+      `transaction:${email}`,
+      JSON.stringify([initialBalance]),
+    );
+    onCallModal('ok', `A conta ${account} foi criada com sucesso`);
+    onBack();
+  };
 
   const generateAccountNumber = () => {
     const account = Math.floor(Math.random() * 1000);
-    const digit = Math.floor(Math.random() * 10)
+    const digit = Math.floor(Math.random() * 10);
 
-    return (`${account}-${digit}`)
-  }
+    return `${account}-${digit}`;
+  };
 
   const handleChecked = () => {
-    setChecked((prevState) => !prevState)
-  }
+    setChecked((prevState) => !prevState);
+  };
 
   return (
     <ContainerFormRegister
@@ -127,7 +127,9 @@ export const FormRegister = ({ onBack, onCallModal }: FormRegisterProps) => {
     >
       <ContainerBackButton>
         <HiOutlineArrowNarrowLeft size={26} style={{ color: '#A422E3' }} />
-        <BackText id='btnBackButton' onClick={onBack} href='#'>Voltar ao login</BackText>
+        <BackText id="btnBackButton" onClick={onBack} href="#">
+          Voltar ao login
+        </BackText>
       </ContainerBackButton>
 
       <FieldInput
@@ -163,13 +165,21 @@ export const FormRegister = ({ onBack, onCallModal }: FormRegisterProps) => {
           type="button"
           onClick={() =>
             setTypeInputPassword(
-              typeInputPassword === "password" ? "text" : "password"
+              typeInputPassword === 'password' ? 'text' : 'password',
             )
           }
         >
           <Image
-            src={typeInputPassword === "password" ? CustomIcons.CloseEye.src : CustomIcons.OpenEye.src}
-            alt={typeInputPassword === "password" ? CustomIcons.CloseEye.alt : CustomIcons.OpenEye.alt}
+            src={
+              typeInputPassword === 'password'
+                ? CustomIcons.CloseEye.src
+                : CustomIcons.OpenEye.src
+            }
+            alt={
+              typeInputPassword === 'password'
+                ? CustomIcons.CloseEye.alt
+                : CustomIcons.OpenEye.alt
+            }
             width="26"
             height="26"
           />
@@ -190,13 +200,23 @@ export const FormRegister = ({ onBack, onCallModal }: FormRegisterProps) => {
           type="button"
           onClick={() =>
             setTypeInputPasswordConfirmation(
-              typeInputPasswordConfirmation === "password" ? "text" : "password"
+              typeInputPasswordConfirmation === 'password'
+                ? 'text'
+                : 'password',
             )
           }
         >
           <Image
-            src={typeInputPasswordConfirmation === "password" ? CustomIcons.CloseEye.src : CustomIcons.OpenEye.src}
-            alt={typeInputPasswordConfirmation === "password" ? CustomIcons.CloseEye.alt : CustomIcons.OpenEye.alt}
+            src={
+              typeInputPasswordConfirmation === 'password'
+                ? CustomIcons.CloseEye.src
+                : CustomIcons.OpenEye.src
+            }
+            alt={
+              typeInputPasswordConfirmation === 'password'
+                ? CustomIcons.CloseEye.alt
+                : CustomIcons.OpenEye.alt
+            }
             width="26"
             height="26"
           />
@@ -204,18 +224,20 @@ export const FormRegister = ({ onBack, onCallModal }: FormRegisterProps) => {
       </div>
 
       <ContainerToggle>
-        <ToggleText>
-          Criar conta com saldo ?
-        </ToggleText>
-        <ToggleSwitch id='toggleAddBalance' isChecked={isChecked} onClick={handleChecked} />
+        <ToggleText>Criar conta com saldo ?</ToggleText>
+        <ToggleSwitch
+          id="toggleAddBalance"
+          isChecked={isChecked}
+          onClick={handleChecked}
+        />
       </ContainerToggle>
 
       <Button
-        id='btnRegister'
-        label='Cadastrar'
-        type='submit'
-        appearance='purple'
+        id="btnRegister"
+        label="Cadastrar"
+        type="submit"
+        appearance="purple"
       />
     </ContainerFormRegister>
-  )
-}
+  );
+};

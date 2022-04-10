@@ -1,10 +1,9 @@
-import styled, { css} from 'styled-components'
-
+import styled, { css } from 'styled-components';
 
 type ContainerButtonProps = {
   appearance: 'pink' | 'white' | 'purple';
   secondary?: boolean;
-}
+};
 
 const AppearancePink = ({ theme }) => css`
   color: ${theme.colors.white};
@@ -34,9 +33,10 @@ export const ContainerButton = styled.button<ContainerButtonProps>`
     font-size: 1.6rem;
     font-family: ${theme.font.family.default};
 
-    ${(p: ContainerButtonProps) => p.appearance === "pink" && AppearancePink};
-    ${(p: ContainerButtonProps) => p.appearance === "white" && AppearanceWhite};
-    ${(p: ContainerButtonProps) => p.appearance === "purple" && AppearancePurple};
+    ${(p: ContainerButtonProps) => p.appearance === 'pink' && AppearancePink};
+    ${(p: ContainerButtonProps) => p.appearance === 'white' && AppearanceWhite};
+    ${(p: ContainerButtonProps) =>
+      p.appearance === 'purple' && AppearancePurple};
 
     :hover {
       opacity: 0.8;

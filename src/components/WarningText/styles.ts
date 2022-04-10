@@ -1,7 +1,7 @@
-import styled, { css } from 'styled-components'
+import styled, { css } from 'styled-components';
 
 interface IWarnigWrapper {
-  color?: 'white' | 'primary'
+  color?: 'white' | 'primary';
 }
 
 export const WarnigWrapper = styled.p`
@@ -19,9 +19,11 @@ export const WarnigWrapper = styled.p`
       font-weight: bold;
     }
 
-    ${(p: IWarnigWrapper) => p.color == 'white' && css`
-      border: 1px solid ${theme.colors.white};
-      color: ${theme.colors.white};`
-    }
+    ${(p: IWarnigWrapper) =>
+      p.color == 'white' &&
+      css`
+        border: 1px solid ${theme.colors.white};
+        color: ${theme.colors.white};
+      `}
   `}
-`
+`;
